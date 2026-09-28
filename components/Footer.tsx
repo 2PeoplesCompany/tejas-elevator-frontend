@@ -28,11 +28,17 @@ export default function Footer() {
                 </div>
               </div>
             </Link>
-            <p className="text-xs text-gray-400 leading-relaxed max-w-sm">
-              Dedicated vertical mobility engineering firm specializing in home lifts, passenger
-              elevators, hospital bed lifts, and industrial freight handlers. Built with certified
-              passenger safety and hands-on engineering care.
-            </p>
+            <div className="text-xs text-gray-300 leading-relaxed max-w-sm space-y-1.5">
+              <div className="font-semibold text-white font-mono uppercase tracking-wider text-[11px] text-brand-steel">
+                Registered Office & Operations
+              </div>
+              <div className="text-gray-400 font-mono text-[11px] space-y-0.5 leading-relaxed">
+                <div><span className="text-gray-200 font-medium">Building No./Flat no.:</span> KHATA NO 657/90 PLOT 1693/2205</div>
+                <div><span className="text-gray-200 font-medium">Name of Premises/Building:</span> HOUSE NO-J-5</div>
+                <div><span className="text-gray-200 font-medium">ROAD/STREET:</span> RAJABAGICHA, <span className="text-gray-200 font-medium">CITY:</span> CUTTACK</div>
+                <div><span className="text-gray-200 font-medium">DISTRICT:</span> CUTTACK, <span className="text-gray-200 font-medium">STATE:</span> ODISHA, <span className="text-gray-200 font-medium">PIN CODE:</span> 753009</div>
+              </div>
+            </div>
             <div className="flex items-center gap-2 text-xs text-gray-400">
               <ShieldCheck className="w-4 h-4 text-brand-navy" />
               <span>ISO 9001:2015 Certified Manufacturing</span>

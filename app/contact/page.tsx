@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import Image from "next/image";
-import { Phone, Mail, Clock, ShieldCheck } from "lucide-react";
+import { Phone, Mail, Clock, ShieldCheck, MapPin } from "lucide-react";
 import InquiryForm from "@/components/InquiryForm";
 
 export const metadata = {
@@ -94,6 +94,30 @@ export default function ContactPage() {
                       tejaselevatorengineering@gmail.com
                     </div>
                   </div>
+                </a>
+              </div>
+            </div>
+
+            <div className="bg-[#f8f9fa] border border-brand-border rounded-2xl p-6 sm:p-8 space-y-4">
+              <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-brand-navy font-bold">
+                <MapPin className="w-4 h-4 text-brand-navy" />
+                <span>Registered Office & Operations Hub</span>
+              </div>
+              <div className="text-xs font-mono text-gray-700 space-y-1 leading-relaxed bg-white border border-gray-200 rounded-xl p-4 shadow-sm">
+                <div><span className="text-gray-900 font-bold">Building No./Flat no.:</span> KHATA NO 657/90 PLOT 1693/2205</div>
+                <div><span className="text-gray-900 font-bold">Name of Premises/Building:</span> HOUSE NO-J-5</div>
+                <div><span className="text-gray-900 font-bold">ROAD/STREET:</span> RAJABAGICHA, <span className="text-gray-900 font-bold">CITY:</span> CUTTACK</div>
+                <div><span className="text-gray-900 font-bold">DISTRICT:</span> CUTTACK, <span className="text-gray-900 font-bold">STATE:</span> ODISHA, <span className="text-gray-900 font-bold">PIN CODE:</span> 753009</div>
+              </div>
+              <div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Rajabagicha+Cuttack+Odisha+753009"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-brand-navy hover:underline"
+                >
+                  <span>Open Location in Google Maps</span>
+                  <span>&rarr;</span>
                 </a>
               </div>
             </div>

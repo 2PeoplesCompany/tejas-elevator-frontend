@@ -4,6 +4,9 @@ import {
   Phone,
   Mail,
   ArrowRight,
+  MapPin,
+  Building2,
+  Navigation,
 } from "lucide-react";
 import CompanyGalleryCarousel from "@/components/CompanyGalleryCarousel";
 
@@ -19,8 +22,8 @@ export default function AboutPage() {
       {/* Header with Background Image and Gradient Overlay */}
       <section className="relative text-white py-20 lg:py-28 overflow-hidden border-b border-gray-800">
         <Image
-          src="/images/company-team.jpg"
-          alt="Tejas Elevator Engineering Team"
+          src="/images/cuttack-facility-drone.jpg"
+          alt="Tejas Elevator Engineering Headquarters & Central Operations"
           fill
           priority
           className="object-cover object-center"
@@ -87,8 +90,8 @@ export default function AboutPage() {
           <div className="lg:col-span-6 relative">
             <div className="relative h-[420px] rounded-2xl overflow-hidden shadow-xl border border-gray-200">
               <Image
-                src="/images/company-elevator.jpg"
-                alt="Tejas Elevator Engineering Quality"
+                src="/images/pmsm-gearless-motor.jpg"
+                alt="Tejas Elevator Engineering - PMSM Gearless Traction Drive Technical Review"
                 fill
                 className="object-cover object-center"
               />
@@ -101,12 +104,12 @@ export default function AboutPage() {
       <section className="py-20 bg-[#f8f9fa] border-y border-brand-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
           <div className="max-w-4xl mx-auto bg-white border border-brand-border rounded-2xl p-8 sm:p-12 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-            <div className="md:col-span-5 relative h-64 md:h-full min-h-[260px] rounded-xl overflow-hidden bg-gray-100">
+            <div className="md:col-span-5 relative h-72 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-gray-100 shadow-md">
               <Image
-                src="/images/company-team.jpg"
-                alt="Engineering Leadership"
+                src="/images/rajiv-kumar-sethi.jpg"
+                alt="Rajiv Kumar Sethi — Head of Engineering Consultation"
                 fill
-                className="object-cover object-center"
+                className="object-cover object-top"
               />
             </div>
 
@@ -115,15 +118,15 @@ export default function AboutPage() {
                 Engineering Leadership Desk
               </div>
               <h3 className="text-2xl sm:text-3xl font-extrabold text-black">
-                Engineering Operations & Consultation
+                Rajiv Kumar Sethi
               </h3>
-              <p className="text-xs text-gray-500 font-mono">
-                Technical Design, Civil Coordination & Operations
+              <p className="text-xs text-brand-navy font-semibold font-mono uppercase tracking-wider">
+                Head of Engineering Consultation & Operations
               </p>
               <p className="text-sm text-gray-600 leading-relaxed">
-                With comprehensive domain expertise in vertical transportation engineering, our senior
-                engineering desk actively oversees project feasibility assessments, technical civil
-                drawings, and post-installation maintenance quality across all client sites.
+                With comprehensive domain expertise in vertical transportation engineering, Rajiv Kumar Sethi
+                personally oversees project feasibility assessments, technical civil shaft drawings,
+                statutory safety certifications, and post-installation maintenance quality across all client sites.
               </p>
 
               <div className="pt-4 border-t border-gray-100 space-y-2 text-xs">
@@ -171,6 +174,67 @@ export default function AboutPage() {
         </div>
 
         <CompanyGalleryCarousel />
+      </section>
+
+      {/* Registered Headquarters & Operations Facility */}
+      <section className="py-20 bg-[#f8f9fa] border-t border-brand-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+            <div className="lg:col-span-6 relative h-[360px] sm:h-[420px] rounded-2xl overflow-hidden shadow-xl border border-gray-200">
+              <Image
+                src="/images/cuttack-facility-drone.jpg"
+                alt="Tejas Elevator Engineering Headquarters & Central Operations Hub in Cuttack, Odisha"
+                fill
+                className="object-cover object-center"
+              />
+              <div className="absolute top-4 left-4 bg-brand-navy/90 text-white text-xs font-mono font-bold px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-sm border border-brand-navy/50">
+                Central Operations Facility
+              </div>
+            </div>
+
+            <div className="lg:col-span-6 space-y-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-navy/10 text-brand-navy text-xs font-mono font-bold">
+                <Building2 className="w-3.5 h-3.5" />
+                <span>Registered Office & Hub</span>
+              </div>
+
+              <h2 className="text-3xl font-extrabold text-black leading-tight">
+                Our Central Engineering Hub in Cuttack, Odisha
+              </h2>
+
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Operating from our registered facility in Cuttack, Tejas Elevator Engineering coordinates
+                turnkey lift installations, structural shaft framing, laser guide rail alignments, and
+                24/7 emergency breakdown dispatches across Cuttack, Bhubaneswar, and all surrounding districts.
+              </p>
+
+              <div className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm space-y-2 text-xs font-mono">
+                <div className="flex items-start gap-2.5 text-brand-navy font-bold text-sm">
+                  <MapPin className="w-4 h-4 text-brand-steel mt-0.5 shrink-0" />
+                  <span>Official Registered Premises</span>
+                </div>
+                <div className="text-gray-700 pl-6 space-y-1">
+                  <div><strong>Building No./Flat no.:</strong> KHATA NO 657/90 PLOT 1693/2205</div>
+                  <div><strong>Name of Premises/Building:</strong> HOUSE NO-J-5</div>
+                  <div><strong>ROAD/STREET:</strong> RAJABAGICHA, <strong>CITY:</strong> CUTTACK</div>
+                  <div><strong>DISTRICT:</strong> CUTTACK, <strong>STATE:</strong> ODISHA, <strong>PIN CODE:</strong> 753009</div>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Rajabagicha+Cuttack+Odisha+753009"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-navy hover:bg-brand-navy-dark text-white rounded text-xs font-bold transition-colors shadow-sm"
+                >
+                  <Navigation className="w-3.5 h-3.5" />
+                  <span>View Location on Google Maps</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   );
