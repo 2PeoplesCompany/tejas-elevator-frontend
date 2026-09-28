@@ -1,3 +1,5 @@
+import { getMediaUrl } from "./media";
+
 export interface ProductItem {
   id: string;
   slug: string;
@@ -21,11 +23,11 @@ export const PRODUCTS_DATA: ProductItem[] = [
     title: "Passenger Elevators",
     shortTag: "Residential & Commercial",
     subtitle: "Smooth, whisper-quiet vertical transit engineered for daily passenger comfort",
-    heroImage: "/images/passenger-elevator.jpg",
+    heroImage: getMediaUrl("/images/passenger-elevator.jpg"),
     galleryImages: [
-      "/images/passenger-elevator.jpg",
-      "/images/hero-elevator.jpg",
-      "/images/company-elevator.jpg",
+      getMediaUrl("/images/passenger-elevator.jpg"),
+      getMediaUrl("/images/hero-elevator.jpg"),
+      getMediaUrl("/images/company-elevator.jpg"),
     ],
     overview:
       "Designed for multi-story residential towers, commercial corporate hubs, and busy shopping complexes. Powered by advanced Permanent Magnet Synchronous Motor (PMSM) gearless drives, delivering whisper-quiet travel, reduced energy consumption, and exceptionally smooth leveling at every floor.",
@@ -65,11 +67,11 @@ export const PRODUCTS_DATA: ProductItem[] = [
     title: "Home & Villa Lifts",
     shortTag: "Bungalows & Duplexes",
     subtitle: "Custom luxury vertical mobility tailored for private residences and villas",
-    heroImage: "/images/home-elevator.jpg",
+    heroImage: getMediaUrl("/images/home-elevator.jpg"),
     galleryImages: [
-      "/images/home-elevator.jpg",
-      "/images/company-elevator.jpg",
-      "/images/hero-elevator.jpg",
+      getMediaUrl("/images/home-elevator.jpg"),
+      getMediaUrl("/images/company-elevator.jpg"),
+      getMediaUrl("/images/hero-elevator.jpg"),
     ],
     overview:
       "Transform your home living experience with custom-crafted residential elevators. Designed with minimal civil requirements, shallow pit depth, and whisper-silent operation, our home lifts integrate harmoniously into existing stairwells or dedicated glass shafts.",
@@ -109,11 +111,11 @@ export const PRODUCTS_DATA: ProductItem[] = [
     title: "Hospital & Stretcher Lifts",
     shortTag: "Healthcare & Care Facilities",
     subtitle: "Ultra-smooth precision leveling designed for patient care and stretcher mobility",
-    heroImage: "/images/hospital-elevator.jpg",
+    heroImage: getMediaUrl("/images/hospital-elevator.jpg"),
     galleryImages: [
-      "/images/hospital-elevator.jpg",
-      "/images/passenger-elevator.jpg",
-      "/images/technician-service.jpg",
+      getMediaUrl("/images/hospital-elevator.jpg"),
+      getMediaUrl("/images/passenger-elevator.jpg"),
+      getMediaUrl("/images/technician-service.jpg"),
     ],
     overview:
       "Engineered specifically for medical centers, hospitals, and nursing homes where passenger stability and equipment protection are paramount. Features extra-deep cabins to transport patient stretchers, beds, and intensive medical equipment with ±2 mm precision leveling to prevent transfer jolts.",
@@ -153,11 +155,11 @@ export const PRODUCTS_DATA: ProductItem[] = [
     title: "Industrial Goods & Freight Lifts",
     shortTag: "Factories & Warehouses",
     subtitle: "Heavy-duty vertical load handlers built for grueling industrial cycles",
-    heroImage: "/images/industrial-elevator.jpg",
+    heroImage: getMediaUrl("/images/industrial-elevator.jpg"),
     galleryImages: [
-      "/images/industrial-elevator.jpg",
-      "/images/technician-service.jpg",
-      "/images/hero-elevator.jpg",
+      getMediaUrl("/images/industrial-elevator.jpg"),
+      getMediaUrl("/images/technician-service.jpg"),
+      getMediaUrl("/images/hero-elevator.jpg"),
     ],
     overview:
       "Rugged, reliable, and powerful vertical freight handlers designed to transport heavy pallet loads, forklift freight, and industrial machinery across factory floors, warehouses, and logistics distribution centers.",

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 import { PRODUCTS_DATA } from "@/lib/products-data";
+import { getMediaUrl } from "@/lib/media";
 
 export const metadata = {
   title: "Elevator Products | Tejas Elevator Engineering",
@@ -36,7 +37,7 @@ export default function ProductsPage() {
       {/* Page Header with Picture Background instead of black */}
       <section className="relative text-white py-20 lg:py-28 overflow-hidden border-b border-gray-800">
         <Image
-          src="/images/hero-elevator.jpg"
+          src={getMediaUrl("/images/hero-elevator.jpg")}
           alt="Elevator Products Catalog"
           fill
           priority

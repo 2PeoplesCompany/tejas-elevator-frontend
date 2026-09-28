@@ -19,6 +19,7 @@ import { PRODUCTS_DATA } from "@/lib/products-data";
 import InquiryForm from "@/components/InquiryForm";
 import HeroCarousel from "@/components/HeroCarousel";
 import ProjectShowcaseCarousel from "@/components/ProjectShowcaseCarousel";
+import { getMediaUrl } from "@/lib/media";
 
 export default function HomePage() {
   const [activeApplication, setActiveApplication] = useState<string>("residential");
@@ -37,7 +38,7 @@ export default function HomePage() {
       name: "Residential",
       title: "Elevators for Modern Homes & Communities",
       desc: "From standalone luxury bungalows to multi-story housing societies, we deliver safe, quiet, and reliable vertical mobility that enhances daily convenience for families and elderly residents.",
-      image: "/images/home-elevator.jpg",
+      image: getMediaUrl("/images/home-elevator.jpg"),
       points: [
         "Quiet gearless drive preventing sound disturbance in living areas",
         "Compact footprint fitting into stairwells or exterior glass shafts",
@@ -49,7 +50,7 @@ export default function HomePage() {
       name: "Commercial & Retail",
       title: "High-Traffic Mobility for Business & Retail",
       desc: "Keep crowds moving effortlessly in corporate offices, shopping arcades, and hospitality venues with rapid door cycling, intelligent dispatching, and sophisticated architectural finishes.",
-      image: "/images/passenger-elevator.jpg",
+      image: getMediaUrl("/images/passenger-elevator.jpg"),
       points: [
         "Fast cycle times and energy-efficient motor management",
         "Premium cabin interiors matching corporate interior decor",
@@ -61,7 +62,7 @@ export default function HomePage() {
       name: "Healthcare",
       title: "Dedicated Stretcher & Medical Mobility",
       desc: "In medical environments, every second matters and ride smoothness is vital. Our healthcare elevators ensure steady patient transport, wide stretcher door clearance, and priority call features.",
-      image: "/images/hospital-elevator.jpg",
+      image: getMediaUrl("/images/hospital-elevator.jpg"),
       points: [
         "±2 mm precise floor leveling to prevent stretcher jolts",
         "Hygienic, anti-bacterial stainless steel surfaces",
@@ -73,7 +74,7 @@ export default function HomePage() {
       name: "Industrial & Freight",
       title: "Rugged Logistics & Heavy Material Movement",
       desc: "Designed to endure grueling manufacturing conditions, heavy pallet movement, and forklift loading. Built with reinforced steel channels and fail-safe safety gear.",
-      image: "/images/industrial-elevator.jpg",
+      image: getMediaUrl("/images/industrial-elevator.jpg"),
       points: [
         "Reinforced structural sling with heavy safety margins",
         "Durable chequered steel plate flooring",

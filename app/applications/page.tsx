@@ -17,6 +17,7 @@ import {
   ChevronRight,
   SlidersHorizontal,
 } from "lucide-react";
+import { getMediaUrl } from "@/lib/media";
 
 interface SectorApplication {
   id: string;
@@ -55,7 +56,7 @@ const SECTORS_DATA: SectorApplication[] = [
     badge: "Heavy Duty Freight",
     classification: "Freight Class A / C1–C3 Heavy Rated",
     tagline: "Rugged high-tonnage freight mobility built to endure grueling industrial duty cycles",
-    image: "/images/industrial-elevator.jpg",
+    image: getMediaUrl("/images/industrial-elevator.jpg"),
     metrics: {
       capacity: "1,000 kg – 5,000+ kg",
       speed: "0.35 – 0.75 m/s",
@@ -92,7 +93,7 @@ const SECTORS_DATA: SectorApplication[] = [
     badge: "High-Traffic Express",
     classification: "High-Traffic Group Control • IS 14665",
     tagline: "High-velocity passenger throughput, whisper-quiet acoustic dampening, and executive aesthetics",
-    image: "/images/passenger-elevator.jpg",
+    image: getMediaUrl("/images/passenger-elevator.jpg"),
     metrics: {
       capacity: "6 to 18 Persons (Core) | 10 to 24 Persons (Express)",
       speed: "0.75 – 1.75 m/s (Core) | 1.5 – 2.5 m/s (Express)",
@@ -129,7 +130,7 @@ const SECTORS_DATA: SectorApplication[] = [
     badge: "Mission-Critical Medical",
     classification: "NABH Hospital Guidelines • Code Blue Ready",
     tagline: "Ultra-smooth precision leveling, deep stretcher clearances, and emergency medical recall",
-    image: "/images/hospital-elevator.jpg",
+    image: getMediaUrl("/images/hospital-elevator.jpg"),
     metrics: {
       capacity: "4 to 8 Persons (Clinic) | 15 to 26 Persons (Bed & ICU)",
       speed: "0.75 – 1.5 m/s",
@@ -166,7 +167,7 @@ const SECTORS_DATA: SectorApplication[] = [
     badge: "Society Comfort",
     classification: "IS 14665 Standard • ARD Integrated",
     tagline: "Reliable daily commuter transit, whisper-quiet operation, and low lifecycle operating costs",
-    image: "/images/hero-elevator.jpg",
+    image: getMediaUrl("/images/hero-elevator.jpg"),
     metrics: {
       capacity: "4 to 15 Persons (300 – 1,020 kg)",
       speed: "0.5 – 1.5 m/s",
@@ -203,7 +204,7 @@ const SECTORS_DATA: SectorApplication[] = [
     badge: "Architectural Luxury",
     classification: "Shallow Pit (200–300 mm) • Single Phase 220V",
     tagline: "Custom luxury vertical mobility with shallow pit civil integration and 360° panoramic glass aesthetics",
-    image: "/images/home-elevator.jpg",
+    image: getMediaUrl("/images/home-elevator.jpg"),
     metrics: {
       capacity: "2 to 8 Persons (180 – 600 kg)",
       speed: "0.3 – 0.6 m/s",
@@ -296,7 +297,7 @@ export default function ApplicationsPage() {
       {/* Cinematic Hero Header */}
       <section className="relative text-white py-20 lg:py-28 overflow-hidden border-b border-gray-800">
         <Image
-          src="/images/glass-atrium-elevator.jpg"
+          src={getMediaUrl("/images/glass-atrium-elevator.jpg")}
           alt="Elevator Applications by Sector"
           fill
           priority
@@ -621,7 +622,7 @@ export default function ApplicationsPage() {
           <div className="bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] rounded-3xl p-8 sm:p-14 text-white relative overflow-hidden shadow-xl">
             <div className="absolute right-0 top-0 bottom-0 w-1/3 opacity-10 pointer-events-none">
               <Image
-                src="/images/installation-site.jpg"
+                src={getMediaUrl("/images/installation-site.jpg")}
                 alt="Shaft Feasibility Engineering"
                 fill
                 className="object-cover"

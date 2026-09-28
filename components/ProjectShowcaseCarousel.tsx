@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, ArrowRight, CheckCircle2 } from "lucide-react";
+import { getMediaUrl } from "@/lib/media";
 
 interface ProjectItem {
   id: number;
@@ -20,7 +21,7 @@ const PROJECTS: ProjectItem[] = [
     id: 1,
     title: "Panoramic Glass Villa Elevator",
     category: "Residential Luxury",
-    image: "/images/glass-atrium-elevator.jpg",
+    image: getMediaUrl("/images/glass-atrium-elevator.jpg"),
     location: "Executive Duplex Bungalow",
     details: "3-Stop custom hydraulic glass lift with frameless cabin, shallow pit depth, and whisper-quiet operation.",
     link: "/products/home-villa-lifts",
@@ -29,7 +30,7 @@ const PROJECTS: ProjectItem[] = [
     id: 2,
     title: "Corporate High-Rise Passenger Core",
     category: "Commercial Office",
-    image: "/images/carousel-hero-1.jpg",
+    image: getMediaUrl("/images/carousel-hero-1.jpg"),
     location: "IT Business Park",
     details: "Twin gearless PMSM passenger elevators featuring intelligent group dispatch and Hairline SS 304 finishes.",
     link: "/products/passenger-elevators",
@@ -38,7 +39,7 @@ const PROJECTS: ProjectItem[] = [
     id: 3,
     title: "Dedicated Stretcher & Medical Elevator",
     category: "Healthcare Facility",
-    image: "/images/hospital-elevator.jpg",
+    image: getMediaUrl("/images/hospital-elevator.jpg"),
     location: "Multi-Specialty Care Hospital",
     details: "Extended 2400 mm depth cabin with ±2 mm micro-leveling and Code Blue emergency priority recall.",
     link: "/products/hospital-stretcher-lifts",
@@ -47,7 +48,7 @@ const PROJECTS: ProjectItem[] = [
     id: 4,
     title: "Heavy-Duty 3000 kg Freight Handler",
     category: "Industrial & Logistics",
-    image: "/images/carousel-hero-4.jpg",
+    image: getMediaUrl("/images/carousel-hero-4.jpg"),
     location: "Automobile Distribution Center",
     details: "Reinforced I-beam sling assembly with chequered steel flooring and motorized bi-parting landing doors.",
     link: "/products/industrial-goods-lifts",
@@ -56,7 +57,7 @@ const PROJECTS: ProjectItem[] = [
     id: 5,
     title: "Modern Architectural Lobby Installation",
     category: "Commercial Towers",
-    image: "/images/carousel-hero-3.jpg",
+    image: getMediaUrl("/images/carousel-hero-3.jpg"),
     location: "Commercial Shopping Arcade",
     details: "Energy-saving VFD controllers reducing power draw by 35% with ambient ceiling lighting.",
     link: "/products/passenger-elevators",

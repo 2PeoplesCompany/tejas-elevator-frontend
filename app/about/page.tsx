@@ -9,6 +9,7 @@ import {
   Navigation,
 } from "lucide-react";
 import CompanyGalleryCarousel from "@/components/CompanyGalleryCarousel";
+import { getMediaUrl } from "@/lib/media";
 
 export const metadata = {
   title: "About Us | Tejas Elevator Engineering",
@@ -22,7 +23,7 @@ export default function AboutPage() {
       {/* Header with Background Image and Gradient Overlay */}
       <section className="relative text-white py-20 lg:py-28 overflow-hidden border-b border-gray-800">
         <Image
-          src="/images/cuttack-facility-drone.jpg"
+          src={getMediaUrl("/images/cuttack-facility-drone.jpg")}
           alt="Tejas Elevator Engineering Headquarters & Central Operations"
           fill
           priority
@@ -90,7 +91,7 @@ export default function AboutPage() {
           <div className="lg:col-span-6 relative">
             <div className="relative h-[420px] rounded-2xl overflow-hidden shadow-xl border border-gray-200">
               <Image
-                src="/images/pmsm-gearless-motor.jpg"
+                src={getMediaUrl("/images/pmsm-gearless-motor.jpg")}
                 alt="Tejas Elevator Engineering - PMSM Gearless Traction Drive Technical Review"
                 fill
                 className="object-cover object-center"
@@ -106,7 +107,7 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto bg-white border border-brand-border rounded-2xl p-8 sm:p-12 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
             <div className="md:col-span-5 relative h-72 md:h-full min-h-[300px] rounded-xl overflow-hidden bg-gray-100 shadow-md">
               <Image
-                src="/images/rajiv-kumar-sethi.jpg"
+                src={getMediaUrl("/images/rajiv-kumar-sethi.jpg")}
                 alt="Rajiv Kumar Sethi — Head of Engineering Consultation"
                 fill
                 className="object-cover object-top"
@@ -182,7 +183,7 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-6 relative h-[360px] sm:h-[420px] rounded-2xl overflow-hidden shadow-xl border border-gray-200">
               <Image
-                src="/images/cuttack-facility-drone.jpg"
+                src={getMediaUrl("/images/cuttack-facility-drone.jpg")}
                 alt="Tejas Elevator Engineering Headquarters & Central Operations Hub in Cuttack, Odisha"
                 fill
                 className="object-cover object-center"

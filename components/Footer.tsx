@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Phone, Mail, ShieldCheck } from "lucide-react";
+import { getMediaUrl } from "@/lib/media";
 
 export default function Footer() {
   return (
@@ -12,7 +13,7 @@ export default function Footer() {
             <Link href="/" className="flex items-center gap-3">
               <div className="w-12 h-12 bg-white p-1 rounded border border-gray-700 overflow-hidden flex items-center justify-center">
                 <Image
-                  src="/tejas-logo.jpg"
+                  src={getMediaUrl("/tejas-logo.jpg")}
                   alt="Tejas Elevator Engineering Logo"
                   width={48}
                   height={48}

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, ChevronLeft, ChevronRight, ShieldCheck } from "lucide-react";
+import { getMediaUrl } from "@/lib/media";
 
 interface SlideData {
   id: number;
@@ -27,7 +28,7 @@ const SLIDES: SlideData[] = [
     highlight: "Moving You Safely.",
     subtext:
       "High-performance gearless PMSM passenger elevators engineered for smooth, whisper-quiet travel in residential towers and corporate complexes.",
-    image: "/images/carousel-hero-1.jpg",
+    image: getMediaUrl("/images/carousel-hero-1.jpg"),
     ctaText: "Explore Passenger Elevators",
     ctaLink: "/products/passenger-elevators",
     secondaryText: "Request Consultation",
@@ -41,7 +42,7 @@ const SLIDES: SlideData[] = [
     highlight: "Vertical Elegance.",
     subtext:
       "Custom-crafted panoramic glass and hydraulic home elevators designed for modern duplexes and luxury villas with minimal pit depth.",
-    image: "/images/carousel-hero-2.jpg",
+    image: getMediaUrl("/images/carousel-hero-2.jpg"),
     ctaText: "Explore Home & Villa Lifts",
     ctaLink: "/products/home-villa-lifts",
     secondaryText: "View Villa Specs",
@@ -55,7 +56,7 @@ const SLIDES: SlideData[] = [
     highlight: "Maximum Throughput.",
     subtext:
       "Rapid-cycling corporate and retail vertical transit featuring energy-saving microprocessor controllers and luxury architectural finishes.",
-    image: "/images/carousel-hero-3.jpg",
+    image: getMediaUrl("/images/carousel-hero-3.jpg"),
     ctaText: "Commercial Solutions",
     ctaLink: "/applications",
     secondaryText: "Modernize Old Lifts",
@@ -69,7 +70,7 @@ const SLIDES: SlideData[] = [
     highlight: "Unyielding Endurance.",
     subtext:
       "Heavy-load vertical handling capacity up to 5000+ kg, engineered with reinforced I-beam slings and anti-skid chequered steel flooring.",
-    image: "/images/carousel-hero-4.jpg",
+    image: getMediaUrl("/images/carousel-hero-4.jpg"),
     ctaText: "Explore Goods Lifts",
     ctaLink: "/products/industrial-goods-lifts",
     secondaryText: "Request Load Study",

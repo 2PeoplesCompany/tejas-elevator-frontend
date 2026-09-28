@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Camera } from "lucide-react";
+import { getMediaUrl } from "@/lib/media";
 
 interface GallerySlide {
   id: number;
@@ -15,42 +16,42 @@ interface GallerySlide {
 const GALLERY_SLIDES: GallerySlide[] = [
   {
     id: 1,
-    image: "/images/rajiv-kumar-sethi.jpg",
+    image: getMediaUrl("/images/rajiv-kumar-sethi.jpg"),
     title: "Rajiv Kumar Sethi — Engineering Leadership Desk",
     subtitle: "Direct technical consultations, architectural shaft feasibility assessments, and statutory safety oversight across Odisha.",
     tag: "Leadership & Founder",
   },
   {
     id: 2,
-    image: "/images/pmsm-gearless-motor.jpg",
+    image: getMediaUrl("/images/pmsm-gearless-motor.jpg"),
     title: "PMSM Gearless Traction Machine Rigor",
     subtitle: "Technical appraisal and integration of permanent-magnet synchronous gearless drive machines delivering up to 40% energy savings and whisper-quiet travel.",
     tag: "Precision Traction Drives",
   },
   {
     id: 3,
-    image: "/images/door-mechanism-inspection.jpg",
+    image: getMediaUrl("/images/door-mechanism-inspection.jpg"),
     title: "Automatic Landing Door Header & Interlock Safety",
     subtitle: "Multi-point statutory inspection of telescopic elevator car door headers, optical curtain sensors, and fail-safe mechanical landing door locks.",
     tag: "Safety Mechanisms",
   },
   {
     id: 4,
-    image: "/images/cuttack-facility-drone.jpg",
+    image: getMediaUrl("/images/cuttack-facility-drone.jpg"),
     title: "Tejas Central Operations Facility — Rajabagicha, Cuttack",
     subtitle: "Aerial view of our central engineering hub, rooftop testing machine room, and 24/7 emergency service fleet serving installations across Odisha.",
     tag: "Cuttack Headquarters",
   },
   {
     id: 5,
-    image: "/images/controller-engineering.jpg",
+    image: getMediaUrl("/images/controller-engineering.jpg"),
     title: "Microprocessor & V3F Control Panel Calibration",
     subtitle: "Diagnostics and programming of energy-saving variable frequency drives and automatic rescue devices (ARD).",
     tag: "Control Systems",
   },
   {
     id: 6,
-    image: "/images/installation-site.jpg",
+    image: getMediaUrl("/images/installation-site.jpg"),
     title: "On-Site Shaft Framing & Laser Rail Alignment",
     subtitle: "Turnkey mechanical erection with sub-millimeter laser guide rail alignment for whisper-quiet travel.",
     tag: "Site Installation",

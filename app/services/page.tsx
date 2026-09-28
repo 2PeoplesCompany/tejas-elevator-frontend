@@ -11,6 +11,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { submitAMCRequest } from "@/lib/api";
+import { getMediaUrl } from "@/lib/media";
 
 export default function ServicesPage() {
   const [amcForm, setAmcForm] = useState({
@@ -64,7 +65,7 @@ export default function ServicesPage() {
       {/* Services Hero Header with Background Photo */}
       <section className="relative text-white py-20 lg:py-28 overflow-hidden border-b border-gray-800">
         <Image
-          src="/images/technician-service.jpg"
+          src={getMediaUrl("/images/technician-service.jpg")}
           alt="Certified Engineering Services & AMC"
           fill
           priority

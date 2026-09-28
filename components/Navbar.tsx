@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Phone, Mail, Award, ArrowRight, Menu, X } from "lucide-react";
+import { getMediaUrl } from "@/lib/media";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -63,7 +64,7 @@ export default function Navbar() {
           <Link href="/" className="flex items-center gap-4 group">
             <div className="relative w-14 h-14 sm:w-16 sm:h-16 flex items-center justify-center p-1 border border-brand-border rounded-lg bg-white shadow-sm overflow-hidden">
               <Image
-                src="/tejas-logo.jpg"
+                src={getMediaUrl("/tejas-logo.jpg")}
                 alt="Tejas Elevator Engineering Logo"
                 width={64}
                 height={64}

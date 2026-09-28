@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import Image from "next/image";
 import { Phone, Mail, Clock, ShieldCheck, MapPin } from "lucide-react";
 import InquiryForm from "@/components/InquiryForm";
+import { getMediaUrl } from "@/lib/media";
 
 export const metadata = {
   title: "Contact & Request Quote | Tejas Elevator Engineering",
@@ -15,7 +16,7 @@ export default function ContactPage() {
       {/* Header with Background Photo and Gradient Overlay */}
       <section className="relative text-white py-20 lg:py-28 overflow-hidden border-b border-gray-800">
         <Image
-          src="/images/controller-engineering.jpg"
+          src={getMediaUrl("/images/controller-engineering.jpg")}
           alt="Contact Tejas Elevator Engineering"
           fill
           priority
