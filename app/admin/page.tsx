@@ -27,7 +27,9 @@ import {
   Layers,
   Sparkles,
   ArrowRight,
+  Image as ImageIcon,
 } from "lucide-react";
+import AdminMediaManager from "@/components/admin/AdminMediaManager";
 import {
   checkAdminSetup,
   setupAdmin,
@@ -120,7 +122,7 @@ export default function AdminPage() {
   const [authLoading, setAuthLoading] = useState(false);
 
   // Dashboard Data states
-  const [activeTab, setActiveTab] = useState<"inquiries" | "amc">("inquiries");
+  const [activeTab, setActiveTab] = useState<"inquiries" | "amc" | "media">("inquiries");
   const [stats, setStats] = useState<Stats | null>(null);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [amcRequests, setAmcRequests] = useState<AMCRequest[]>([]);
@@ -781,73 +783,96 @@ export default function AdminPage() {
                   {amcRequests.length}
                 </span>
               </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab("media");
+                }}
+                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                  activeTab === "media"
+                    ? "bg-brand-navy text-white shadow-sm"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                <ImageIcon className="w-4 h-4 text-brand-steel" />
+                <span>Website Photos &amp; Media</span>
+                <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono ${
+                  activeTab === "media" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-700"
+                }`}>
+                  20
+                </span>
+              </button>
             </div>
 
             {/* Quick Actions: Refresh & Export CSV */}
-            <div className="flex items-center gap-2">
-              <button
-                onClick={fetchData}
-                disabled={loadingData}
-                aria-label="Refresh Data"
-                className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5"
-                title="Refresh Database Records"
-              >
-                <RefreshCw className={`w-4 h-4 ${loadingData ? "animate-spin" : ""}`} />
-                <span className="hidden sm:inline">Refresh</span>
-              </button>
+            {activeTab !== "media" && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={fetchData}
+                  disabled={loadingData}
+                  aria-label="Refresh Data"
+                  className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5"
+                  title="Refresh Database Records"
+                >
+                  <RefreshCw className={`w-4 h-4 ${loadingData ? "animate-spin" : ""}`} />
+                  <span className="hidden sm:inline">Refresh</span>
+                </button>
 
-              <button
-                onClick={exportToCSV}
-                className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
-                title="Download spreadsheet of records"
-              >
-                <Download className="w-4 h-4" />
-                <span>Export CSV</span>
-              </button>
-            </div>
+                <button
+                  onClick={exportToCSV}
+                  className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
+                  title="Download spreadsheet of records"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Export CSV</span>
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Search & Status Filters */}
-          <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
-            <div className="sm:col-span-8 relative">
-              <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={
-                  activeTab === "inquiries"
-                    ? "Search inquiries by client name, phone number, email, or lift type..."
-                    : "Search AMC by property name, contact person, phone, or plan..."
-                }
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
-              />
-            </div>
+          {/* Search & Status Filters (for inquiries and amc) */}
+          {activeTab !== "media" && (
+            <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
+              <div className="sm:col-span-8 relative">
+                <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder={
+                    activeTab === "inquiries"
+                      ? "Search inquiries by client name, phone number, email, or lift type..."
+                      : "Search AMC by property name, contact person, phone, or plan..."
+                  }
+                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                />
+              </div>
 
-            <div className="sm:col-span-4 flex items-center gap-2">
-              <Filter className="w-4 h-4 text-gray-400 shrink-0" />
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full py-2.5 px-3 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-navy font-medium"
-              >
-                <option value="all">Filter: All Statuses</option>
-                {activeTab === "inquiries" ? (
-                  INQUIRY_STATUSES.map((s) => (
-                    <option key={s.value} value={s.value}>
-                      {s.label}
-                    </option>
-                  ))
-                ) : (
-                  AMC_STATUSES.map((s) => (
-                    <option key={s.value} value={s.value}>
-                      {s.label}
-                    </option>
-                  ))
-                )}
-              </select>
+              <div className="sm:col-span-4 flex items-center gap-2">
+                <Filter className="w-4 h-4 text-gray-400 shrink-0" />
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="w-full py-2.5 px-3 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-navy font-medium"
+                >
+                  <option value="all">Filter: All Statuses</option>
+                  {activeTab === "inquiries" ? (
+                    INQUIRY_STATUSES.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
+                      </option>
+                    ))
+                  ) : (
+                    AMC_STATUSES.map((s) => (
+                      <option key={s.value} value={s.value}>
+                        {s.label}
+                      </option>
+                    ))
+                  )}
+                </select>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* ------------------------------------------------------------------ */}
@@ -1184,6 +1209,11 @@ export default function AdminPage() {
             )}
           </div>
         )}
+
+        {/* ------------------------------------------------------------------ */}
+        {/* TAB 3: Website Media & Photos Manager */}
+        {/* ------------------------------------------------------------------ */}
+        {activeTab === "media" && <AdminMediaManager />}
       </main>
     </div>
   );
