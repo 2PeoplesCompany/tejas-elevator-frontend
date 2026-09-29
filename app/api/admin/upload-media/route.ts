@@ -9,6 +9,50 @@ cloudinary.config({
   secure: true,
 });
 
+/**
+ * GET: Retrieve live Cloudinary resources and versions for tejas-elevator assets
+ */
+export async function GET() {
+  try {
+    const resources = await cloudinary.api.resources({
+      type: "upload",
+      prefix: "tejas-elevator",
+      max_results: 100,
+    });
+
+    const versions: Record<
+      string,
+      { version: number; format: string; url: string; updatedAt: string; bytes: number }
+    > = {};
+
+    for (const res of resources.resources) {
+      const key = res.public_id.replace(/^tejas-elevator\//, "");
+      versions[key] = {
+        version: res.version,
+        format: res.format,
+        url: res.secure_url,
+        updatedAt: res.created_at,
+        bytes: res.bytes,
+      };
+    }
+
+    return NextResponse.json({
+      success: true,
+      versions,
+    });
+  } catch (error: unknown) {
+    const errorMsg = error instanceof Error ? error.message : "Failed to fetch Cloudinary resources";
+    console.error("Cloudinary resource fetch error:", error);
+    return NextResponse.json(
+      { success: false, error: errorMsg },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST: Upload and replace an image in Cloudinary with cache invalidation
+ */
 export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
@@ -38,7 +82,17 @@ export async function POST(req: NextRequest) {
     const arrayBuffer = await file.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    // Upload to Cloudinary with overwrite and CDN cache invalidation
+    // Delete existing asset first with invalidate: true to clear any old derived transformations
+    try {
+      await cloudinary.uploader.destroy(`tejas-elevator/${cleanPublicId}`, {
+        invalidate: true,
+        resource_type: "image",
+      });
+    } catch {
+      // Ignore if not found
+    }
+
+    // Upload new image to Cloudinary with CDN cache invalidation
     const uploadResult = await new Promise<UploadApiResponse>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         {
@@ -67,6 +121,7 @@ export async function POST(req: NextRequest) {
       message: `Successfully uploaded ${targetFilename}`,
       url: uploadResult.secure_url,
       publicId: uploadResult.public_id,
+      baseName: cleanPublicId,
       format: uploadResult.format,
       bytes: uploadResult.bytes,
       width: uploadResult.width,

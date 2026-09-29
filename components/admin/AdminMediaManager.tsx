@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -12,12 +12,20 @@ import {
   Search,
   ExternalLink,
   FolderOpen,
-  Info,
   Check,
   X,
+  Sparkles,
 } from "lucide-react";
 import { MEDIA_CATALOG, ManagedMediaItem } from "@/lib/media-catalog";
 import { getMediaUrl } from "@/lib/media";
+
+interface LiveVersionInfo {
+  version: number;
+  format: string;
+  url: string;
+  updatedAt?: string;
+  bytes?: number;
+}
 
 export default function AdminMediaManager() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -25,8 +33,12 @@ export default function AdminMediaManager() {
   const [uploadingId, setUploadingId] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<{ id: string; msg: string } | null>(null);
   const [errorMessage, setErrorMessage] = useState<{ id: string; msg: string } | null>(null);
-  
-  // Cache busting map to force image refresh after upload
+
+  // Live Cloudinary versions map
+  const [liveVersions, setLiveVersions] = useState<Record<string, LiveVersionInfo>>({});
+  const [isSyncing, setIsSyncing] = useState<boolean>(true);
+
+  // Cache busting map to force image refresh immediately after upload
   const [cacheBusters, setCacheBusters] = useState<Record<string, number>>({});
 
   // Active replacement modal or selected file state
@@ -34,6 +46,42 @@ export default function AdminMediaManager() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Fetch live Cloudinary versions
+  const fetchLiveVersions = useCallback(async () => {
+    setIsSyncing(true);
+    try {
+      const res = await fetch("/api/admin/upload-media", { method: "GET" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.versions) {
+          setLiveVersions(data.versions);
+          if (typeof window !== "undefined") {
+            localStorage.setItem("tejas_media_live_versions", JSON.stringify(data.versions));
+          }
+        }
+      }
+    } catch (err) {
+      console.warn("Failed to fetch live Cloudinary versions:", err);
+    } finally {
+      setIsSyncing(false);
+    }
+  }, []);
+
+  // Load from localStorage first on mount, then sync with Cloudinary
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const cached = localStorage.getItem("tejas_media_live_versions");
+        if (cached) {
+          setLiveVersions(JSON.parse(cached));
+        }
+      } catch {
+        // Ignore JSON parse errors
+      }
+    }
+    fetchLiveVersions();
+  }, [fetchLiveVersions]);
 
   // Filter items
   const filteredItems = MEDIA_CATALOG.filter((item) => {
@@ -98,7 +146,26 @@ export default function AdminMediaManager() {
         throw new Error(data.error || "Failed to upload image.");
       }
 
-      // Update cache buster to force image thumbnail reload
+      const baseName = activeItem.filename.replace(/\.[^/.]+$/, "");
+      const newVersionInfo: LiveVersionInfo = {
+        version: data.version,
+        format: data.format,
+        url: data.url,
+        bytes: data.bytes,
+      };
+
+      // Update live versions map immediately and persist to localStorage
+      const updatedVersions = {
+        ...liveVersions,
+        [baseName]: newVersionInfo,
+      };
+      setLiveVersions(updatedVersions);
+
+      if (typeof window !== "undefined") {
+        localStorage.setItem("tejas_media_live_versions", JSON.stringify(updatedVersions));
+      }
+
+      // Update cache buster to force immediate thumbnail re-render
       setCacheBusters((prev) => ({
         ...prev,
         [activeItem.filename]: Date.now(),
@@ -106,7 +173,7 @@ export default function AdminMediaManager() {
 
       setSuccessMessage({
         id: activeItem.id,
-        msg: `Photo successfully updated! Live on ${activeItem.appearsOn}.`,
+        msg: `Photo successfully uploaded to Cloudinary (v${data.version}, ${data.format?.toUpperCase()})! Live across the website.`,
       });
 
       // Close modal after brief delay
@@ -131,15 +198,25 @@ export default function AdminMediaManager() {
       {/* Media Manager Header Banner */}
       <div className="bg-gradient-to-r from-gray-900 via-brand-navy-dark to-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl">
         <div className="relative z-10 max-w-3xl space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-steel/20 border border-brand-steel/30 text-xs font-mono text-brand-steel">
-            <FolderOpen className="w-3.5 h-3.5" />
-            <span>Cloudinary Media Manager • Zero Storage Lag</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-steel/20 border border-brand-steel/30 text-xs font-mono text-brand-steel">
+              <FolderOpen className="w-3.5 h-3.5" />
+              <span>Cloudinary CDN Media Manager • 19 Active Assets</span>
+            </div>
+            <button
+              onClick={fetchLiveVersions}
+              disabled={isSyncing}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-xs text-white transition-all disabled:opacity-50"
+            >
+              <RefreshCw className={`w-3 h-3 ${isSyncing ? "animate-spin" : ""}`} />
+              <span>{isSyncing ? "Syncing with Cloudinary..." : "Sync Live Versions"}</span>
+            </button>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
             Manage Website Photos &amp; Banners
           </h2>
           <p className="text-gray-300 text-sm leading-relaxed">
-            Replace any photo across the website in seconds. All uploads are automatically optimized (WebP/AVIF) and served via Cloudinary CDN with zero credit card risk.
+            All 19 active photos across the website are synced directly with your Cloudinary CDN. Replacing any photo generates a new cache-busted CDN version, instantly visible across the entire live website without delay.
           </p>
         </div>
       </div>
@@ -186,8 +263,15 @@ export default function AdminMediaManager() {
       {/* Media Grid Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredItems.map((item) => {
+          const baseName = item.filename.replace(/\.[^/.]+$/, "");
+          const liveInfo = liveVersions[baseName];
           const timestamp = cacheBusters[item.filename] || "";
-          const liveImageUrl = getMediaUrl(item.filename) + (timestamp ? `?t=${timestamp}` : "");
+
+          // Real-time URL priority:
+          // 1. liveInfo.url from Cloudinary
+          // 2. getMediaUrl fallback
+          const rawUrl = liveInfo?.url || getMediaUrl(item.filename);
+          const liveImageUrl = timestamp ? `${rawUrl}?t=${timestamp}` : rawUrl;
 
           return (
             <div
@@ -200,7 +284,7 @@ export default function AdminMediaManager() {
                   src={liveImageUrl}
                   alt={item.title}
                   fill
-                  unoptimized={Boolean(timestamp)}
+                  unoptimized={true}
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
@@ -210,15 +294,29 @@ export default function AdminMediaManager() {
                   <span className="px-2 py-0.5 bg-black/75 backdrop-blur-md border border-white/20 text-white rounded text-[10px] font-mono uppercase">
                     {item.categoryLabel}
                   </span>
-                  <span className="px-2 py-0.5 bg-brand-navy/90 text-white rounded text-[10px] font-mono">
-                    {item.aspectRatio}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    {liveInfo?.format && (
+                      <span className="px-1.5 py-0.5 bg-emerald-600/90 text-white rounded text-[9px] font-mono uppercase font-bold">
+                        {liveInfo.format}
+                      </span>
+                    )}
+                    <span className="px-2 py-0.5 bg-brand-navy/90 text-white rounded text-[10px] font-mono">
+                      {item.aspectRatio}
+                    </span>
+                  </div>
                 </div>
 
                 {/* Bottom filename overlay */}
                 <div className="absolute bottom-2 left-3 right-3 text-white">
-                  <div className="text-[11px] font-mono text-gray-300 truncate">
-                    tejas-elevator/{item.filename}
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono text-gray-300 truncate">
+                      tejas-elevator/{item.filename}
+                    </span>
+                    {liveInfo?.version && (
+                      <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-800/60">
+                        v{liveInfo.version}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -226,9 +324,11 @@ export default function AdminMediaManager() {
               {/* Card Body */}
               <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                 <div className="space-y-1.5">
-                  <h3 className="font-bold text-gray-900 text-sm leading-snug">
-                    {item.title}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="font-bold text-gray-900 text-sm leading-snug">
+                      {item.title}
+                    </h3>
+                  </div>
                   <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
                     {item.description}
                   </p>
@@ -249,9 +349,9 @@ export default function AdminMediaManager() {
 
                   {/* Success Message Banner */}
                   {successMessage?.id === item.id && (
-                    <div className="p-2 bg-emerald-50 border border-emerald-200 rounded text-emerald-800 text-[11px] flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                      <span>{successMessage.msg}</span>
+                    <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-[11px] flex items-center gap-1.5 animate-in fade-in">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
+                      <span className="leading-tight">{successMessage.msg}</span>
                     </div>
                   )}
 
@@ -338,6 +438,7 @@ export default function AdminMediaManager() {
                         src={previewUrl}
                         alt="Preview"
                         fill
+                        unoptimized={true}
                         className="object-cover object-center"
                       />
                     </div>
@@ -371,9 +472,9 @@ export default function AdminMediaManager() {
 
               {/* Info Note */}
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 text-[11px] text-blue-800 flex items-start gap-2">
-                <Info className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                <Sparkles className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                 <span>
-                  Uploading will immediately overwrite the existing asset in your Cloudinary media storage and purge the CDN edge cache. Visitors will see the new image automatically.
+                  Uploading invalidates Cloudinary CDN caches and generates a new version (v...). Both this admin panel and public visitors will immediately load the newly uploaded photo.
                 </span>
               </div>
             </div>
@@ -399,7 +500,7 @@ export default function AdminMediaManager() {
                 {uploadingId ? (
                   <>
                     <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    <span>Uploading to Cloudinary...</span>
+                    <span>Uploading &amp; Invalidating CDN...</span>
                   </>
                 ) : (
                   <>

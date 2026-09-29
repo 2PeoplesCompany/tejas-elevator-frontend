@@ -91,17 +91,6 @@ export const MEDIA_CATALOG: ManagedMediaItem[] = [
     pageRoute: "/about",
     aspectRatio: "16:9 Landscape",
   },
-  {
-    id: "facility-team",
-    category: "leadership",
-    categoryLabel: "Leadership & Hub",
-    title: "Engineering Team & Operational Fleet",
-    description: "Company technical team and field operations service personnel.",
-    filename: "company-team.jpg",
-    appearsOn: "About Us Gallery",
-    pageRoute: "/about",
-    aspectRatio: "16:9 Landscape",
-  },
 
   // 3. Core Technology & Safety
   {
@@ -195,14 +184,14 @@ export const MEDIA_CATALOG: ManagedMediaItem[] = [
     aspectRatio: "Landscape",
   },
   {
-    id: "prod-cabin",
+    id: "prod-company",
     category: "products",
     categoryLabel: "Product Catalog",
-    title: "Luxury Cabin Interiors & Finishes",
-    description: "Hairline stainless steel and mirror gold architectural cabin finish details.",
-    filename: "cabin-interior-luxury.jpg",
-    appearsOn: "Products Catalog Detail",
-    pageRoute: "/products",
+    title: "Commercial & Corporate Elevator Showcase",
+    description: "Multi-floor corporate office lift installation with premium glass & steel aesthetics.",
+    filename: "company-elevator.jpg",
+    appearsOn: "Products Catalog Gallery",
+    pageRoute: "/products/passenger-elevators",
     aspectRatio: "Landscape",
   },
   {
