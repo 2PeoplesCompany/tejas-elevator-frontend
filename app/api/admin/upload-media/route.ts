@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
+import { verifyAdminRequest } from "@/lib/admin-auth-check";
 
 // Configure Cloudinary with server-side credentials
 cloudinary.config({
@@ -55,6 +56,15 @@ export async function GET() {
  */
 export async function POST(req: NextRequest) {
   try {
+    // Enforce admin authentication
+    const auth = await verifyAdminRequest(req);
+    if (!auth.authorized) {
+      return NextResponse.json(
+        { error: auth.error || "Authentication required. Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const formData = await req.formData();
     const file = formData.get("file") as File | null;
     const targetFilename = formData.get("targetFilename") as string | null;

@@ -25,6 +25,7 @@ import {
 import { MEDIA_CATALOG, ManagedMediaItem } from "@/lib/media-catalog";
 import { getMediaUrl } from "@/lib/media";
 import { ShowcaseItem, DEFAULT_SHOWCASE_ITEMS } from "@/lib/showcase";
+import { getAuthHeaders } from "@/lib/admin-api";
 
 interface LiveVersionInfo {
   version: number;
@@ -202,8 +203,12 @@ export default function AdminMediaManager() {
       formData.append("file", selectedFile);
       formData.append("targetFilename", activeItem.filename);
 
+      const authHeaders = getAuthHeaders();
       const res = await fetch("/api/admin/upload-media", {
         method: "POST",
+        headers: {
+          ...authHeaders,
+        },
         body: formData,
       });
 
@@ -315,8 +320,12 @@ export default function AdminMediaManager() {
       formData.append("category", showcaseCategory.trim());
       formData.append("description", showcaseDescription.trim());
 
+      const authHeaders = getAuthHeaders();
       const res = await fetch("/api/showcase", {
         method: "POST",
+        headers: {
+          ...authHeaders,
+        },
         body: formData,
       });
 
@@ -361,9 +370,13 @@ export default function AdminMediaManager() {
 
     setDeletingShowcaseId(item.id);
     try {
+      const authHeaders = getAuthHeaders();
       const res = await fetch("/api/showcase", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...authHeaders,
+        },
         body: JSON.stringify({
           id: item.id,
           publicId: item.publicId,
@@ -391,10 +404,14 @@ export default function AdminMediaManager() {
     if (!confirmed) return;
 
     try {
+      const authHeaders = getAuthHeaders();
       const formData = new FormData();
       formData.append("action", "restore_defaults");
       const res = await fetch("/api/showcase", {
         method: "POST",
+        headers: {
+          ...authHeaders,
+        },
         body: formData,
       });
       if (res.ok) {

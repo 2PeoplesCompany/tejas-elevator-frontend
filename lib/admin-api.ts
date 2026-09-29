@@ -1,7 +1,7 @@
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5000";
 
 // Helper to retrieve the stored Supabase JWT access token
-function getAuthHeaders(): Record<string, string> {
+export function getAuthHeaders(): Record<string, string> {
   if (typeof window === "undefined") return {};
   try {
     const saved = localStorage.getItem("tejas_admin_session");

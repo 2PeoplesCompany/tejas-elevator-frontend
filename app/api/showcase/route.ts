@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary, UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 import { ShowcaseItem, DEFAULT_SHOWCASE_ITEMS } from "@/lib/showcase";
+import { verifyAdminRequest } from "@/lib/admin-auth-check";
 
 // Configure Cloudinary with server credentials
 cloudinary.config({
@@ -149,6 +150,15 @@ export async function GET() {
  */
 export async function POST(req: NextRequest) {
   try {
+    // Enforce admin authentication for showcase media mutations
+    const auth = await verifyAdminRequest(req);
+    if (!auth.authorized) {
+      return NextResponse.json(
+        { error: auth.error || "Authentication required. Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const formData = await req.formData();
 
     // Check if this is a request to restore/reset default sample media
@@ -264,6 +274,15 @@ export async function POST(req: NextRequest) {
  */
 export async function DELETE(req: NextRequest) {
   try {
+    // Enforce admin authentication for showcase media mutations
+    const auth = await verifyAdminRequest(req);
+    if (!auth.authorized) {
+      return NextResponse.json(
+        { error: auth.error || "Authentication required. Admin privileges required." },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
     const { id, publicId, mediaType, isDefault } = body;
 
