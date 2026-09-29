@@ -27,6 +27,7 @@ import {
   Layers,
   Sparkles,
   ArrowRight,
+  KeyRound,
   Image as ImageIcon,
 } from "lucide-react";
 import AdminMediaManager from "@/components/admin/AdminMediaManager";
@@ -41,6 +42,8 @@ import {
   getAdminAMCRequests,
   updateAMCStatus,
   deleteAMCRecord,
+  changeAdminPassword,
+  updateAdminProfile,
 } from "@/lib/admin-api";
 
 interface AdminUser {
@@ -122,7 +125,7 @@ export default function AdminPage() {
   const [authLoading, setAuthLoading] = useState(false);
 
   // Dashboard Data states
-  const [activeTab, setActiveTab] = useState<"inquiries" | "amc" | "media">("inquiries");
+  const [activeTab, setActiveTab] = useState<"inquiries" | "amc" | "media" | "security">("inquiries");
   const [stats, setStats] = useState<Stats | null>(null);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
   const [amcRequests, setAmcRequests] = useState<AMCRequest[]>([]);
@@ -250,6 +253,106 @@ export default function AdminPage() {
   const handleSignOut = () => {
     localStorage.removeItem("tejas_admin_session");
     setCurrentUser(null);
+  };
+
+  // Security & Account Settings state
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [secLoading, setSecLoading] = useState(false);
+  const [secSuccess, setSecSuccess] = useState<string | null>(null);
+  const [secError, setSecError] = useState<string | null>(null);
+
+  // Profile update state
+  const [profileName, setProfileName] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [profileSuccess, setProfileSuccess] = useState<string | null>(null);
+  const [profileError, setProfileError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (currentUser) {
+      setProfileName(currentUser.fullName || "");
+      setProfileEmail(currentUser.email || "");
+    }
+  }, [currentUser]);
+
+  const handleChangePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSecError(null);
+    setSecSuccess(null);
+
+    if (newPassword.length < 6) {
+      setSecError("New password must be at least 6 characters long.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setSecError("New passwords do not match. Please verify and retype.");
+      return;
+    }
+
+    setSecLoading(true);
+    try {
+      const res = await changeAdminPassword({
+        currentPassword: currentPassword || undefined,
+        newPassword,
+      });
+      setSecSuccess(res.message || "Admin password updated successfully!");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+      triggerNotice("Password changed successfully!");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to change password.";
+      setSecError(msg);
+    } finally {
+      setSecLoading(false);
+    }
+  };
+
+  const handleUpdateProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setProfileError(null);
+    setProfileSuccess(null);
+    setProfileLoading(true);
+
+    try {
+      const res = await updateAdminProfile({
+        fullName: profileName,
+        email: profileEmail,
+      });
+
+      setProfileSuccess(res.message || "Admin profile updated successfully!");
+      if (res.user && currentUser) {
+        const updated = {
+          ...currentUser,
+          fullName: res.user.fullName || profileName,
+          email: res.user.email || profileEmail,
+        };
+        setCurrentUser(updated);
+
+        const saved = localStorage.getItem("tejas_admin_session");
+        if (saved) {
+          try {
+            const parsed = JSON.parse(saved);
+            parsed.user = updated;
+            localStorage.setItem("tejas_admin_session", JSON.stringify(parsed));
+          } catch {
+            // Ignore
+          }
+        }
+      }
+      triggerNotice("Profile updated successfully!");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to update profile.";
+      setProfileError(msg);
+    } finally {
+      setProfileLoading(false);
+    }
   };
 
   // Change Inquiry Status
@@ -799,13 +902,27 @@ export default function AdminPage() {
                 <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono ${
                   activeTab === "media" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-700"
                 }`}>
-                  20
+                  19
                 </span>
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab("security");
+                }}
+                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                  activeTab === "security"
+                    ? "bg-brand-navy text-white shadow-sm"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+              >
+                <KeyRound className="w-4 h-4 text-brand-steel" />
+                <span>Account &amp; Security</span>
               </button>
             </div>
 
             {/* Quick Actions: Refresh & Export CSV */}
-            {activeTab !== "media" && (
+            {activeTab !== "media" && activeTab !== "security" && (
               <div className="flex items-center gap-2">
                 <button
                   onClick={fetchData}
@@ -831,7 +948,7 @@ export default function AdminPage() {
           </div>
 
           {/* Search & Status Filters (for inquiries and amc) */}
-          {activeTab !== "media" && (
+          {activeTab !== "media" && activeTab !== "security" && (
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 pt-1">
               <div className="sm:col-span-8 relative">
                 <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
@@ -1214,6 +1331,266 @@ export default function AdminPage() {
         {/* TAB 3: Website Media & Photos Manager */}
         {/* ------------------------------------------------------------------ */}
         {activeTab === "media" && <AdminMediaManager />}
+
+        {/* ------------------------------------------------------------------ */}
+        {/* TAB 4: Account & Security Manager */}
+        {/* ------------------------------------------------------------------ */}
+        {activeTab === "security" && (
+          <div className="space-y-8">
+            {/* Header Banner */}
+            <div className="bg-gradient-to-r from-gray-900 via-brand-navy-dark to-gray-900 border border-gray-800 rounded-2xl p-6 sm:p-8 text-white relative overflow-hidden shadow-xl">
+              <div className="relative z-10 max-w-3xl space-y-3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-steel/20 border border-brand-steel/30 text-xs font-mono text-brand-steel">
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Admin Credentials &amp; Security • Supabase Auth</span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
+                  Account &amp; Security Settings
+                </h2>
+                <p className="text-gray-300 text-sm leading-relaxed">
+                  Update your administrator login password or profile information. All updates are cryptographically secured and processed directly through Supabase Auth with zero server overhead.
+                </p>
+              </div>
+            </div>
+
+            {/* Current Account Card */}
+            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-2xl bg-brand-navy/10 border border-brand-navy/20 text-brand-navy font-bold text-xl flex items-center justify-center shrink-0">
+                  {currentUser.fullName ? currentUser.fullName.charAt(0).toUpperCase() : "A"}
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="font-extrabold text-gray-900 text-lg">{currentUser.fullName}</h3>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase">
+                      {currentUser.role || "Admin"}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-500 font-mono mt-0.5">{currentUser.email}</div>
+                  <div className="text-[11px] text-gray-400 mt-1">Authenticated via Supabase PostgreSQL Auth</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 shrink-0">
+                <span className="px-3 py-1.5 rounded-xl bg-gray-100 border border-gray-200 text-gray-600 text-xs font-mono">
+                  ID: {currentUser.id.slice(0, 12)}...
+                </span>
+              </div>
+            </div>
+
+            {/* Forms Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Form 1: Change Password */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-between space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 text-brand-navy mb-1">
+                    <KeyRound className="w-5 h-5 text-brand-navy" />
+                    <h3 className="text-lg font-bold text-gray-900">Change Admin Password</h3>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Set a new strong password for your administrator account.
+                  </p>
+
+                  <form onSubmit={handleChangePassword} className="mt-6 space-y-4">
+                    {secError && (
+                      <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 shrink-0" />
+                        <span>{secError}</span>
+                      </div>
+                    )}
+
+                    {secSuccess && (
+                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>{secSuccess}</span>
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                        Current Password (Optional Verification)
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type={showCurrentPass ? "text" : "password"}
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          placeholder="Enter current password if known"
+                          className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowCurrentPass(!showCurrentPass)}
+                          className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                        >
+                          {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                        New Password *
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type={showNewPass ? "text" : "password"}
+                          required
+                          minLength={6}
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          placeholder="Minimum 6 characters"
+                          className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowNewPass(!showNewPass)}
+                          className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                        >
+                          {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                        Confirm New Password *
+                      </label>
+                      <div className="relative">
+                        <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type={showConfirmPass ? "text" : "password"}
+                          required
+                          minLength={6}
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          placeholder="Re-type new password"
+                          className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirmPass(!showConfirmPass)}
+                          className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                        >
+                          {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                        </button>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={secLoading || !newPassword || !confirmPassword}
+                      className="w-full py-2.5 px-4 bg-brand-navy hover:bg-brand-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {secLoading ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin" />
+                          <span>Updating Password...</span>
+                        </>
+                      ) : (
+                        <>
+                          <KeyRound className="w-4 h-4 text-brand-steel" />
+                          <span>Save New Password</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100 text-[11px] text-gray-500 leading-relaxed">
+                  Tip: Passwords must be at least 6 characters. Make sure to remember your new password for your next login.
+                </div>
+              </div>
+
+              {/* Form 2: Update Profile Information */}
+              <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-between space-y-6">
+                <div>
+                  <div className="flex items-center gap-2 text-brand-navy mb-1">
+                    <User className="w-5 h-5 text-brand-navy" />
+                    <h3 className="text-lg font-bold text-gray-900">Administrator Profile</h3>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    Update your official contact name and login email address.
+                  </p>
+
+                  <form onSubmit={handleUpdateProfile} className="mt-6 space-y-4">
+                    {profileError && (
+                      <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center gap-2">
+                        <AlertCircle className="w-4 h-4 shrink-0" />
+                        <span>{profileError}</span>
+                      </div>
+                    )}
+
+                    {profileSuccess && (
+                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>{profileSuccess}</span>
+                      </div>
+                    )}
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                        Admin Full Name
+                      </label>
+                      <div className="relative">
+                        <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type="text"
+                          required
+                          value={profileName}
+                          onChange={(e) => setProfileName(e.target.value)}
+                          placeholder="e.g. Rajiv Kumar Sethi"
+                          className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                        Login Email Address
+                      </label>
+                      <div className="relative">
+                        <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <input
+                          type="email"
+                          required
+                          value={profileEmail}
+                          onChange={(e) => setProfileEmail(e.target.value)}
+                          placeholder="e.g. tejaselevatorengineering@gmail.com"
+                          className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy font-mono"
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={profileLoading || (!profileName && !profileEmail)}
+                      className="w-full py-2.5 px-4 bg-brand-navy hover:bg-brand-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {profileLoading ? (
+                        <>
+                          <RefreshCw className="w-4 h-4 animate-spin" />
+                          <span>Saving Profile...</span>
+                        </>
+                      ) : (
+                        <>
+                          <CheckCircle2 className="w-4 h-4 text-brand-steel" />
+                          <span>Save Profile Updates</span>
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100 text-[11px] text-gray-500 leading-relaxed">
+                  Note: Changing your email will update the primary login credential for this administrator account in Supabase.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -139,3 +139,38 @@ export async function deleteAMCRecord(id: string) {
   if (!res.ok) throw new Error(data.error || "Failed to delete AMC request");
   return data;
 }
+
+export async function changeAdminPassword(payload: {
+  currentPassword?: string;
+  newPassword: string;
+}) {
+  const res = await fetch(`${BACKEND_URL}/api/admin/change-password`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to update password");
+  return data;
+}
+
+export async function updateAdminProfile(payload: {
+  fullName?: string;
+  email?: string;
+}) {
+  const res = await fetch(`${BACKEND_URL}/api/admin/profile`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      ...getAuthHeaders(),
+    },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || "Failed to update profile");
+  return data;
+}
+
