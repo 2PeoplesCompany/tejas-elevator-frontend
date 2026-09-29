@@ -94,20 +94,20 @@ interface Stats {
 }
 
 const INQUIRY_STATUSES = [
-  { value: "new", label: "New Lead", color: "bg-amber-100 text-amber-800 border-amber-300" },
-  { value: "contacted", label: "Contacted", color: "bg-blue-100 text-blue-800 border-blue-300" },
-  { value: "survey_scheduled", label: "Survey Scheduled", color: "bg-purple-100 text-purple-800 border-purple-300" },
-  { value: "quote_sent", label: "Quote Dispatched", color: "bg-indigo-100 text-indigo-800 border-indigo-300" },
-  { value: "finalized", label: "Contract Finalized", color: "bg-emerald-100 text-emerald-800 border-emerald-300" },
-  { value: "closed", label: "Archived / Closed", color: "bg-gray-100 text-gray-700 border-gray-300" },
+  { value: "new", label: "New Lead", color: "bg-amber-950/80 text-amber-300 border-amber-800/80" },
+  { value: "contacted", label: "Contacted", color: "bg-blue-950/80 text-blue-300 border-blue-800/80" },
+  { value: "survey_scheduled", label: "Survey Scheduled", color: "bg-purple-950/80 text-purple-300 border-purple-800/80" },
+  { value: "quote_sent", label: "Quote Dispatched", color: "bg-indigo-950/80 text-indigo-300 border-indigo-800/80" },
+  { value: "finalized", label: "Contract Finalized", color: "bg-emerald-950/80 text-emerald-300 border-emerald-800/80" },
+  { value: "closed", label: "Archived / Closed", color: "bg-slate-800 text-slate-300 border-slate-700" },
 ];
 
 const AMC_STATUSES = [
-  { value: "pending", label: "Pending Audit", color: "bg-amber-100 text-amber-800 border-amber-300" },
-  { value: "survey_scheduled", label: "Site Inspection Scheduled", color: "bg-blue-100 text-blue-800 border-blue-300" },
-  { value: "active", label: "Active Contract", color: "bg-emerald-100 text-emerald-800 border-emerald-300" },
-  { value: "completed", label: "Service Completed", color: "bg-purple-100 text-purple-800 border-purple-300" },
-  { value: "cancelled", label: "Archived", color: "bg-gray-100 text-gray-700 border-gray-300" },
+  { value: "pending", label: "Pending Audit", color: "bg-amber-950/80 text-amber-300 border-amber-800/80" },
+  { value: "survey_scheduled", label: "Site Inspection Scheduled", color: "bg-blue-950/80 text-blue-300 border-blue-800/80" },
+  { value: "active", label: "Active Contract", color: "bg-emerald-950/80 text-emerald-300 border-emerald-800/80" },
+  { value: "completed", label: "Service Completed", color: "bg-purple-950/80 text-purple-300 border-purple-800/80" },
+  { value: "cancelled", label: "Archived", color: "bg-slate-800 text-slate-300 border-slate-700" },
 ];
 
 export default function AdminPage() {
@@ -521,8 +521,8 @@ export default function AdminPage() {
   if (!currentUser && needsSetup) {
     return (
       <div className="min-h-screen bg-[#0b1120] flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-          <div className="p-8 bg-brand-navy text-white text-center space-y-2">
+        <div className="w-full max-w-md bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-800">
+          <div className="p-8 bg-brand-navy-dark text-white text-center space-y-2 border-b border-slate-800">
             <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto text-brand-steel">
               <ShieldCheck className="w-7 h-7" />
             </div>
@@ -534,65 +534,65 @@ export default function AdminPage() {
 
           <form onSubmit={handleSetup} className="p-8 space-y-5">
             {authError && (
-              <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-start gap-2.5">
+              <div className="p-3.5 bg-rose-950/60 border border-rose-800/80 rounded-xl text-xs text-rose-300 flex items-start gap-2.5">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>{authError}</span>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                 Full Name
               </label>
               <div className="relative">
-                <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                 <input
                   type="text"
                   required
                   value={authName}
                   onChange={(e) => setAuthName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                   placeholder="Rajiv Kumar Sethi"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                 Admin Email Address
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                 <input
                   type="email"
                   required
                   value={authEmail}
                   onChange={(e) => setAuthEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel font-mono"
                   placeholder="tejaselevatorengineering@gmail.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                 Create Strong Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   minLength={6}
                   value={authPassword}
                   onChange={(e) => setAuthPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                  className="w-full pl-10 pr-10 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                   placeholder="At least 6 characters"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-200"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -602,7 +602,7 @@ export default function AdminPage() {
             <button
               type="submit"
               disabled={authLoading}
-              className="w-full py-3 bg-brand-navy hover:bg-brand-navy-dark text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 shadow-md disabled:opacity-60"
+              className="w-full py-3 bg-brand-navy hover:bg-brand-navy-dark text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 shadow-md disabled:opacity-60 border border-brand-steel/30"
             >
               {authLoading ? (
                 <span>Creating Account...</span>
@@ -625,8 +625,8 @@ export default function AdminPage() {
   if (!currentUser) {
     return (
       <div className="min-h-screen bg-[#0b1120] flex items-center justify-center p-4 sm:p-8">
-        <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
-          <div className="p-8 bg-brand-navy text-white text-center space-y-2">
+        <div className="w-full max-w-md bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-slate-800">
+          <div className="p-8 bg-brand-navy-dark text-white text-center space-y-2 border-b border-slate-800">
             <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto text-brand-steel">
               <Lock className="w-6 h-6" />
             </div>
@@ -641,47 +641,47 @@ export default function AdminPage() {
 
           <form onSubmit={handleLogin} className="p-8 space-y-5">
             {authError && (
-              <div className="p-3.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-start gap-2.5">
+              <div className="p-3.5 bg-rose-950/60 border border-rose-800/80 rounded-xl text-xs text-rose-300 flex items-start gap-2.5">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>{authError}</span>
               </div>
             )}
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                 Admin Email
               </label>
               <div className="relative">
-                <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                 <input
                   type="email"
                   required
                   value={authEmail}
                   onChange={(e) => setAuthEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel font-mono"
                   placeholder="tejaselevatorengineering@gmail.com"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+              <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                 Password
               </label>
               <div className="relative">
-                <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                 <input
                   type={showPassword ? "text" : "password"}
                   required
                   value={authPassword}
                   onChange={(e) => setAuthPassword(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                  className="w-full pl-10 pr-10 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-200"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -691,7 +691,7 @@ export default function AdminPage() {
             <button
               type="submit"
               disabled={authLoading}
-              className="w-full py-3 bg-brand-navy hover:bg-brand-navy-dark text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 shadow-md disabled:opacity-60"
+              className="w-full py-3 bg-brand-navy hover:bg-brand-navy-dark text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2 shadow-md disabled:opacity-60 border border-brand-steel/30"
             >
               {authLoading ? (
                 <span>Verifying Credentials...</span>
@@ -706,7 +706,7 @@ export default function AdminPage() {
             <div className="text-center pt-2">
               <Link
                 href="/"
-                className="text-xs text-gray-500 hover:text-brand-navy transition-colors font-medium"
+                className="text-xs text-slate-400 hover:text-brand-steel transition-colors font-medium"
               >
                 ← Back to Public Website
               </Link>
@@ -721,7 +721,7 @@ export default function AdminPage() {
   // Main Admin Dashboard
   // --------------------------------------------------------------------------
   return (
-    <div className="min-h-screen bg-[#f3f4f6]">
+    <div className="min-h-screen bg-[#0b1120] text-gray-100">
       {/* Top Admin Navigation Bar */}
       <header className="bg-brand-navy text-white border-b border-gray-800 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
@@ -776,93 +776,95 @@ export default function AdminPage() {
       )}
 
       {/* Dashboard Body */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-8 py-8 space-y-8">
+      <main className="max-w-7xl mx-auto px-3 sm:px-8 py-5 sm:py-8 space-y-6 sm:space-y-8">
         {/* KPI Metrics Summary Cards */}
         {stats && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            <div className="bg-white p-5 rounded-2xl border border-gray-200 shadow-sm flex items-center justify-between">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+            <div className="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-slate-800 shadow-md flex items-center justify-between">
               <div>
-                <div className="text-xs font-mono uppercase text-gray-500 font-semibold">
+                <div className="text-xs font-mono uppercase text-gray-400 font-semibold">
                   Total Inquiries
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-black font-mono mt-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono mt-1">
                   {stats.totalInquiries}
                 </div>
-                <div className="text-[11px] text-gray-500 mt-1">Lifetime inquiries logged</div>
+                <div className="text-[11px] text-gray-400 mt-1">Lifetime logged</div>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-                <Layers className="w-6 h-6" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                <Layers className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-amber-200 shadow-sm flex items-center justify-between">
+            <div className="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-amber-900/40 shadow-md flex items-center justify-between">
               <div>
-                <div className="text-xs font-mono uppercase text-amber-700 font-bold">
-                  New Leads (Action Req.)
+                <div className="text-xs font-mono uppercase text-amber-400 font-bold">
+                  New Leads
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-amber-600 font-mono mt-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-amber-400 font-mono mt-1">
                   {stats.newInquiries}
                 </div>
-                <div className="text-[11px] text-gray-500 mt-1">Awaiting first engineer contact</div>
+                <div className="text-[11px] text-amber-300/80 mt-1">Action required</div>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center shrink-0">
-                <Clock className="w-6 h-6" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+                <Clock className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-purple-200 shadow-sm flex items-center justify-between">
+            <div className="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-purple-900/40 shadow-md flex items-center justify-between">
               <div>
-                <div className="text-xs font-mono uppercase text-purple-700 font-bold">
-                  Surveys & Quotes
+                <div className="text-xs font-mono uppercase text-purple-400 font-bold">
+                  Surveys &amp; Quotes
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-purple-600 font-mono mt-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-purple-400 font-mono mt-1">
                   {stats.surveyScheduledInquiries + stats.quoteSentInquiries}
                 </div>
-                <div className="text-[11px] text-gray-500 mt-1">In design / site review</div>
+                <div className="text-[11px] text-purple-300/80 mt-1">In design review</div>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
-                <Sparkles className="w-6 h-6" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center shrink-0">
+                <Sparkles className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-emerald-200 shadow-sm flex items-center justify-between">
+            <div className="bg-slate-900/90 p-4 sm:p-5 rounded-2xl border border-emerald-900/40 shadow-md flex items-center justify-between">
               <div>
-                <div className="text-xs font-mono uppercase text-emerald-700 font-bold">
-                  AMC Service Contracts
+                <div className="text-xs font-mono uppercase text-emerald-400 font-bold">
+                  AMC Contracts
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-600 font-mono mt-1">
+                <div className="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-mono mt-1">
                   {stats.totalAMC}
                 </div>
-                <div className="text-[11px] text-emerald-600 font-medium mt-1">
+                <div className="text-[11px] text-emerald-300/80 mt-1">
                   {stats.pendingAMC} pending audit
                 </div>
               </div>
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                <Building2 className="w-6 h-6" />
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+                <Building2 className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
             </div>
           </div>
         )}
 
         {/* Tab Selection & Search / Controls Bar */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4 sm:p-6 space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-gray-200 pb-4">
-            {/* Tabs */}
-            <div className="flex items-center gap-2">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-3.5 sm:p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3 sm:pb-4">
+            {/* Tabs: Responsive 2x2 Grid on Mobile, Flex Row on Desktop */}
+            <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
               <button
                 onClick={() => {
                   setActiveTab("inquiries");
                   setStatusFilter("all");
                 }}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   activeTab === "inquiries"
-                    ? "bg-brand-navy text-white shadow-sm"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-brand-navy text-white shadow-md border border-brand-steel/30"
+                    : "bg-slate-800/80 hover:bg-slate-800 text-gray-300 border border-slate-700/60"
                 }`}
               >
-                <span>Lift Project Inquiries</span>
-                <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono ${
-                  activeTab === "inquiries" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-700"
+                <MessageSquare className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+                <span className="sm:hidden">Inquiries</span>
+                <span className="hidden sm:inline">Lift Inquiries</span>
+                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono ${
+                  activeTab === "inquiries" ? "bg-white/20 text-white" : "bg-slate-700 text-gray-300"
                 }`}>
                   {inquiries.length}
                 </span>
@@ -873,15 +875,17 @@ export default function AdminPage() {
                   setActiveTab("amc");
                   setStatusFilter("all");
                 }}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   activeTab === "amc"
-                    ? "bg-brand-navy text-white shadow-sm"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-brand-navy text-white shadow-md border border-brand-steel/30"
+                    : "bg-slate-800/80 hover:bg-slate-800 text-gray-300 border border-slate-700/60"
                 }`}
               >
-                <span>AMC Service Requests</span>
-                <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono ${
-                  activeTab === "amc" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-700"
+                <Building2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                <span className="sm:hidden">AMC Leads</span>
+                <span className="hidden sm:inline">AMC Requests</span>
+                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono ${
+                  activeTab === "amc" ? "bg-white/20 text-white" : "bg-slate-700 text-gray-300"
                 }`}>
                   {amcRequests.length}
                 </span>
@@ -891,16 +895,17 @@ export default function AdminPage() {
                 onClick={() => {
                   setActiveTab("media");
                 }}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   activeTab === "media"
-                    ? "bg-brand-navy text-white shadow-sm"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-brand-navy text-white shadow-md border border-brand-steel/30"
+                    : "bg-slate-800/80 hover:bg-slate-800 text-gray-300 border border-slate-700/60"
                 }`}
               >
-                <ImageIcon className="w-4 h-4 text-brand-steel" />
-                <span>Website Photos &amp; Media</span>
-                <span className={`px-2 py-0.5 rounded-full text-[11px] font-mono ${
-                  activeTab === "media" ? "bg-white/20 text-white" : "bg-gray-200 text-gray-700"
+                <ImageIcon className="w-3.5 h-3.5 text-brand-steel shrink-0" />
+                <span className="sm:hidden">Photos</span>
+                <span className="hidden sm:inline">Website Photos</span>
+                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono ${
+                  activeTab === "media" ? "bg-white/20 text-white" : "bg-slate-700 text-gray-300"
                 }`}>
                   19
                 </span>
@@ -910,37 +915,38 @@ export default function AdminPage() {
                 onClick={() => {
                   setActiveTab("security");
                 }}
-                className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 ${
+                className={`px-3 sm:px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 ${
                   activeTab === "security"
-                    ? "bg-brand-navy text-white shadow-sm"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    ? "bg-brand-navy text-white shadow-md border border-brand-steel/30"
+                    : "bg-slate-800/80 hover:bg-slate-800 text-gray-300 border border-slate-700/60"
                 }`}
               >
-                <KeyRound className="w-4 h-4 text-brand-steel" />
-                <span>Account &amp; Security</span>
+                <KeyRound className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+                <span className="sm:hidden">Security</span>
+                <span className="hidden sm:inline">Account &amp; Security</span>
               </button>
             </div>
 
             {/* Quick Actions: Refresh & Export CSV */}
             {activeTab !== "media" && activeTab !== "security" && (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-end gap-2 w-full sm:w-auto pt-2 sm:pt-0">
                 <button
                   onClick={fetchData}
                   disabled={loadingData}
                   aria-label="Refresh Data"
-                  className="p-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5"
+                  className="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-gray-300 border border-slate-700 rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5"
                   title="Refresh Database Records"
                 >
-                  <RefreshCw className={`w-4 h-4 ${loadingData ? "animate-spin" : ""}`} />
-                  <span className="hidden sm:inline">Refresh</span>
+                  <RefreshCw className={`w-3.5 h-3.5 ${loadingData ? "animate-spin" : ""}`} />
+                  <span>Refresh</span>
                 </button>
 
                 <button
                   onClick={exportToCSV}
-                  className="px-3.5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
+                  className="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl transition-colors text-xs font-semibold flex items-center gap-1.5 shadow-sm"
                   title="Download spreadsheet of records"
                 >
-                  <Download className="w-4 h-4" />
+                  <Download className="w-3.5 h-3.5" />
                   <span>Export CSV</span>
                 </button>
               </div>
@@ -958,10 +964,10 @@ export default function AdminPage() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder={
                     activeTab === "inquiries"
-                      ? "Search inquiries by client name, phone number, email, or lift type..."
-                      : "Search AMC by property name, contact person, phone, or plan..."
+                      ? "Search by client name, phone, email, or lift type..."
+                      : "Search by property, contact, phone, or plan..."
                   }
-                  className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-steel"
                 />
               </div>
 
@@ -970,7 +976,7 @@ export default function AdminPage() {
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
-                  className="w-full py-2.5 px-3 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-navy font-medium"
+                  className="w-full py-2.5 px-3 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-steel font-medium"
                 >
                   <option value="all">Filter: All Statuses</option>
                   {activeTab === "inquiries" ? (
@@ -998,10 +1004,10 @@ export default function AdminPage() {
         {activeTab === "inquiries" && (
           <div className="space-y-4">
             {inquiries.length === 0 ? (
-              <div className="bg-white rounded-2xl p-12 text-center border border-gray-200 shadow-sm space-y-3">
-                <MessageSquare className="w-10 h-10 text-gray-300 mx-auto" />
-                <h3 className="text-base font-bold text-gray-800">No Inquiries Found</h3>
-                <p className="text-xs text-gray-500 max-w-sm mx-auto">
+              <div className="bg-slate-900 rounded-2xl p-8 sm:p-12 text-center border border-slate-800 shadow-xl space-y-3">
+                <MessageSquare className="w-10 h-10 text-slate-600 mx-auto" />
+                <h3 className="text-base font-bold text-white">No Inquiries Found</h3>
+                <p className="text-xs text-gray-400 max-w-sm mx-auto">
                   {searchQuery || statusFilter !== "all"
                     ? "No records match your active search or filter criteria. Try resetting filters."
                     : "No project inquiries have been logged yet. Submissions from the website will appear here in real-time."}
@@ -1015,13 +1021,13 @@ export default function AdminPage() {
                   return (
                     <div
                       key={inq.id}
-                      className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:border-brand-navy/60 transition-all space-y-4"
+                      className="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-800 shadow-xl hover:border-slate-700 transition-all space-y-4"
                     >
                       {/* Top Header Row */}
-                      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-gray-100 pb-3">
+                      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-800 pb-3">
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="text-base sm:text-lg font-extrabold text-black">
+                            <h3 className="text-base sm:text-lg font-extrabold text-white">
                               {inq.full_name}
                             </h3>
                             <span
@@ -1030,9 +1036,9 @@ export default function AdminPage() {
                               {statusObj.label}
                             </span>
                           </div>
-                          <div className="text-xs text-gray-500 flex items-center gap-3">
+                          <div className="text-xs text-gray-400 flex items-center gap-3">
                             <span className="flex items-center gap-1 font-mono">
-                              <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                              <Calendar className="w-3.5 h-3.5 text-gray-500" />
                               {new Date(inq.created_at).toLocaleDateString("en-IN", {
                                 day: "numeric",
                                 month: "short",
@@ -1042,7 +1048,7 @@ export default function AdminPage() {
                               })}
                             </span>
                             <span>•</span>
-                            <span className="font-mono text-[11px] text-gray-400">
+                            <span className="font-mono text-[11px] text-gray-500">
                               ID: {inq.id.slice(0, 8)}...
                             </span>
                           </div>
@@ -1052,7 +1058,7 @@ export default function AdminPage() {
                         <div className="flex items-center gap-2">
                           <a
                             href={`tel:${inq.phone}`}
-                            className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
+                            className="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
                             title="Direct Phone Call"
                           >
                             <PhoneCall className="w-3.5 h-3.5" />
@@ -1063,7 +1069,7 @@ export default function AdminPage() {
                             href={getWhatsAppLink(inq.phone, inq.full_name, inq.lift_type)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
+                            className="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
                             title="Send WhatsApp Follow-up Message"
                           >
                             <Send className="w-3.5 h-3.5" />
@@ -1072,7 +1078,7 @@ export default function AdminPage() {
 
                           <button
                             onClick={() => handleDeleteInquiry(inq.id, inq.full_name)}
-                            className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded-lg"
+                            className="p-1.5 text-gray-500 hover:text-red-400 transition-colors rounded-lg"
                             title="Delete this record"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -1082,28 +1088,28 @@ export default function AdminPage() {
 
                       {/* Detail Metrics Grid */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                        <div className="p-3 bg-gray-50 rounded-xl">
-                          <div className="text-[11px] text-gray-500 font-mono">Phone Number</div>
-                          <div className="font-bold text-black font-mono mt-0.5">{inq.phone}</div>
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl">
+                          <div className="text-[11px] text-gray-400 font-mono">Phone Number</div>
+                          <div className="font-bold text-white font-mono mt-0.5">{inq.phone}</div>
                         </div>
 
-                        <div className="p-3 bg-gray-50 rounded-xl truncate">
-                          <div className="text-[11px] text-gray-500 font-mono">Email Address</div>
-                          <div className="font-bold text-black font-mono truncate mt-0.5">
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl truncate">
+                          <div className="text-[11px] text-gray-400 font-mono">Email Address</div>
+                          <div className="font-bold text-white font-mono truncate mt-0.5">
                             {inq.email}
                           </div>
                         </div>
 
-                        <div className="p-3 bg-gray-50 rounded-xl">
-                          <div className="text-[11px] text-gray-500 font-mono">Elevator Category</div>
-                          <div className="font-bold text-brand-navy mt-0.5 truncate">
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl">
+                          <div className="text-[11px] text-gray-400 font-mono">Elevator Category</div>
+                          <div className="font-bold text-brand-steel mt-0.5 truncate">
                             {inq.lift_type}
                           </div>
                         </div>
 
-                        <div className="p-3 bg-gray-50 rounded-xl">
-                          <div className="text-[11px] text-gray-500 font-mono">Floors / Building</div>
-                          <div className="font-bold text-black mt-0.5 truncate">
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl">
+                          <div className="text-[11px] text-gray-400 font-mono">Floors / Building</div>
+                          <div className="font-bold text-white mt-0.5 truncate">
                             {inq.floors} ({inq.building_type || "N/A"})
                           </div>
                         </div>
@@ -1111,21 +1117,21 @@ export default function AdminPage() {
 
                       {/* Client Message */}
                       {inq.message && (
-                        <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100 text-xs text-gray-700">
-                          <div className="font-bold text-gray-900 mb-1">Client Message & Requirements:</div>
+                        <div className="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800 text-xs text-gray-300">
+                          <div className="font-bold text-gray-200 mb-1">Client Message &amp; Requirements:</div>
                           <p className="italic whitespace-pre-line leading-relaxed">{inq.message}</p>
                         </div>
                       )}
 
                       {/* Bottom Workflow Status Selector */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-100 text-xs">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800 text-xs">
                         <div className="flex flex-wrap items-center gap-2.5">
-                          <span className="font-bold text-gray-700">Lead Workflow Status:</span>
+                          <span className="font-bold text-gray-300">Lead Workflow Status:</span>
                           <select
                             value={inq.status || "new"}
                             disabled={savingInquiryId === inq.id}
                             onChange={(e) => handleInquiryStatusChange(inq.id, e.target.value)}
-                            className="py-1 px-3 bg-white border border-gray-300 rounded-lg text-xs font-bold text-black focus:outline-none focus:ring-2 focus:ring-brand-navy cursor-pointer disabled:opacity-50"
+                            className="py-1.5 px-3 bg-slate-950 border border-slate-700 rounded-lg text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-brand-steel cursor-pointer disabled:opacity-50"
                           >
                             {INQUIRY_STATUSES.map((st) => (
                               <option key={st.value} value={st.value}>
@@ -1135,19 +1141,19 @@ export default function AdminPage() {
                           </select>
 
                           {savingInquiryId === inq.id ? (
-                            <span className="flex items-center gap-1.5 text-[11px] font-mono text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                            <span className="flex items-center gap-1.5 text-[11px] font-mono text-amber-400 bg-amber-950/50 px-2 py-0.5 rounded border border-amber-800/50">
                               <RefreshCw className="w-3 h-3 animate-spin" />
                               <span>Saving to Supabase...</span>
                             </span>
                           ) : (
-                            <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/50">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                               <span>Synced in DB</span>
                             </span>
                           )}
                         </div>
 
-                        <div className="text-gray-500 text-[11px] font-mono">
+                        <div className="text-gray-400 text-[11px] font-mono">
                           Assigned Lead: {inq.assigned_to || "Rajiv Kumar Sethi"}
                         </div>
                       </div>
@@ -1165,10 +1171,10 @@ export default function AdminPage() {
         {activeTab === "amc" && (
           <div className="space-y-4">
             {amcRequests.length === 0 ? (
-              <div className="bg-white rounded-2xl p-12 text-center border border-gray-200 shadow-sm space-y-3">
-                <Building2 className="w-10 h-10 text-gray-300 mx-auto" />
-                <h3 className="text-base font-bold text-gray-800">No AMC Requests Found</h3>
-                <p className="text-xs text-gray-500 max-w-sm mx-auto">
+              <div className="bg-slate-900 rounded-2xl p-8 sm:p-12 text-center border border-slate-800 shadow-xl space-y-3">
+                <Building2 className="w-10 h-10 text-slate-600 mx-auto" />
+                <h3 className="text-base font-bold text-white">No AMC Requests Found</h3>
+                <p className="text-xs text-gray-400 max-w-sm mx-auto">
                   {searchQuery || statusFilter !== "all"
                     ? "No AMC records match your current filter."
                     : "No AMC audit requests logged yet. Society/commercial maintenance requests will appear here."}
@@ -1182,13 +1188,13 @@ export default function AdminPage() {
                   return (
                     <div
                       key={amc.id}
-                      className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:border-brand-navy/60 transition-all space-y-4"
+                      className="bg-slate-900 rounded-2xl p-4 sm:p-6 border border-slate-800 shadow-xl hover:border-slate-700 transition-all space-y-4"
                     >
                       {/* Top Header Row */}
-                      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-gray-100 pb-3">
+                      <div className="flex flex-wrap items-start justify-between gap-3 border-b border-slate-800 pb-3">
                         <div className="space-y-1">
                           <div className="flex items-center gap-2">
-                            <h3 className="text-base sm:text-lg font-extrabold text-black">
+                            <h3 className="text-base sm:text-lg font-extrabold text-white">
                               {amc.property_name}
                             </h3>
                             <span
@@ -1197,9 +1203,9 @@ export default function AdminPage() {
                               {statusObj.label}
                             </span>
                           </div>
-                          <div className="text-xs text-gray-500 flex items-center gap-3">
+                          <div className="text-xs text-gray-400 flex items-center gap-3">
                             <span className="flex items-center gap-1 font-mono">
-                              <Calendar className="w-3.5 h-3.5 text-gray-400" />
+                              <Calendar className="w-3.5 h-3.5 text-gray-500" />
                               {new Date(amc.created_at).toLocaleDateString("en-IN", {
                                 day: "numeric",
                                 month: "short",
@@ -1209,7 +1215,7 @@ export default function AdminPage() {
                               })}
                             </span>
                             <span>•</span>
-                            <span className="font-mono text-[11px] text-gray-400">
+                            <span className="font-mono text-[11px] text-gray-500">
                               Contact: {amc.contact_name}
                             </span>
                           </div>
@@ -1219,7 +1225,7 @@ export default function AdminPage() {
                         <div className="flex items-center gap-2">
                           <a
                             href={`tel:${amc.phone}`}
-                            className="px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
+                            className="px-3 py-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
                             title="Direct Phone Call"
                           >
                             <PhoneCall className="w-3.5 h-3.5" />
@@ -1232,7 +1238,7 @@ export default function AdminPage() {
                             )}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
+                            className="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 rounded-lg text-xs font-bold transition-colors flex items-center gap-1.5"
                             title="Send WhatsApp Message"
                           >
                             <Send className="w-3.5 h-3.5" />
@@ -1241,7 +1247,7 @@ export default function AdminPage() {
 
                           <button
                             onClick={() => handleDeleteAMC(amc.id, amc.property_name)}
-                            className="p-1.5 text-gray-400 hover:text-red-600 transition-colors rounded-lg"
+                            className="p-1.5 text-gray-500 hover:text-red-400 transition-colors rounded-lg"
                             title="Delete this record"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -1251,27 +1257,27 @@ export default function AdminPage() {
 
                       {/* Detail Metrics Grid */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
-                        <div className="p-3 bg-gray-50 rounded-xl">
-                          <div className="text-[11px] text-gray-500 font-mono">Contact Person</div>
-                          <div className="font-bold text-black mt-0.5">{amc.contact_name}</div>
-                          <div className="text-[11px] text-gray-600 font-mono">{amc.phone}</div>
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl">
+                          <div className="text-[11px] text-gray-400 font-mono">Contact Person</div>
+                          <div className="font-bold text-white mt-0.5">{amc.contact_name}</div>
+                          <div className="text-[11px] text-gray-400 font-mono">{amc.phone}</div>
                         </div>
 
-                        <div className="p-3 bg-gray-50 rounded-xl">
-                          <div className="text-[11px] text-gray-500 font-mono">Selected Plan</div>
-                          <div className="font-bold text-brand-navy mt-0.5">{amc.plan_type}</div>
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl">
+                          <div className="text-[11px] text-gray-400 font-mono">Selected Plan</div>
+                          <div className="font-bold text-brand-steel mt-0.5">{amc.plan_type}</div>
                         </div>
 
-                        <div className="p-3 bg-gray-50 rounded-xl">
-                          <div className="text-[11px] text-gray-500 font-mono">Active Elevators</div>
-                          <div className="font-bold text-black mt-0.5 font-mono">
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl">
+                          <div className="text-[11px] text-gray-400 font-mono">Active Elevators</div>
+                          <div className="font-bold text-white mt-0.5 font-mono">
                             {amc.current_lifts_count} Lift(s)
                           </div>
                         </div>
 
-                        <div className="p-3 bg-gray-50 rounded-xl truncate">
-                          <div className="text-[11px] text-gray-500 font-mono">Property Address</div>
-                          <div className="font-bold text-black mt-0.5 truncate">
+                        <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl truncate">
+                          <div className="text-[11px] text-gray-400 font-mono">Property Address</div>
+                          <div className="font-bold text-white mt-0.5 truncate">
                             {amc.property_address || "N/A"}
                           </div>
                         </div>
@@ -1279,21 +1285,21 @@ export default function AdminPage() {
 
                       {/* AMC Message */}
                       {amc.message && (
-                        <div className="p-3.5 bg-gray-50 rounded-xl border border-gray-100 text-xs text-gray-700">
-                          <div className="font-bold text-gray-900 mb-1">Maintenance Scope / Notes:</div>
+                        <div className="p-3.5 bg-slate-950/70 rounded-xl border border-slate-800 text-xs text-gray-300">
+                          <div className="font-bold text-gray-200 mb-1">Maintenance Scope / Notes:</div>
                           <p className="italic whitespace-pre-line leading-relaxed">{amc.message}</p>
                         </div>
                       )}
 
                       {/* Bottom Status Selector */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-100 text-xs">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-slate-800 text-xs">
                         <div className="flex flex-wrap items-center gap-2.5">
-                          <span className="font-bold text-gray-700">AMC Status:</span>
+                          <span className="font-bold text-gray-300">AMC Status:</span>
                           <select
                             value={amc.status || "pending"}
                             disabled={savingAmcId === amc.id}
                             onChange={(e) => handleAMCStatusChange(amc.id, e.target.value)}
-                            className="py-1 px-3 bg-white border border-gray-300 rounded-lg text-xs font-bold text-black focus:outline-none focus:ring-2 focus:ring-brand-navy cursor-pointer disabled:opacity-50"
+                            className="py-1.5 px-3 bg-slate-950 border border-slate-700 rounded-lg text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-brand-steel cursor-pointer disabled:opacity-50"
                           >
                             {AMC_STATUSES.map((st) => (
                               <option key={st.value} value={st.value}>
@@ -1303,19 +1309,19 @@ export default function AdminPage() {
                           </select>
 
                           {savingAmcId === amc.id ? (
-                            <span className="flex items-center gap-1.5 text-[11px] font-mono text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
+                            <span className="flex items-center gap-1.5 text-[11px] font-mono text-amber-400 bg-amber-950/50 px-2 py-0.5 rounded border border-amber-800/50">
                               <RefreshCw className="w-3 h-3 animate-spin" />
                               <span>Saving to Supabase...</span>
                             </span>
                           ) : (
-                            <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                            <span className="flex items-center gap-1 text-[11px] font-mono text-emerald-400 bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-800/50">
+                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                               <span>Synced in DB</span>
                             </span>
                           )}
                         </div>
 
-                        <div className="text-gray-500 text-[11px] font-mono">
+                        <div className="text-gray-400 text-[11px] font-mono">
                           Official Desk: tejaselevatorengineering@gmail.com
                         </div>
                       </div>
@@ -1354,25 +1360,25 @@ export default function AdminPage() {
             </div>
 
             {/* Current Account Card */}
-            <div className="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-white">
               <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-brand-navy/10 border border-brand-navy/20 text-brand-navy font-bold text-xl flex items-center justify-center shrink-0">
+                <div className="w-14 h-14 rounded-2xl bg-brand-navy/30 border border-brand-navy/50 text-brand-steel font-bold text-xl flex items-center justify-center shrink-0">
                   {currentUser.fullName ? currentUser.fullName.charAt(0).toUpperCase() : "A"}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h3 className="font-extrabold text-gray-900 text-lg">{currentUser.fullName}</h3>
-                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 border border-emerald-300 uppercase">
+                    <h3 className="font-extrabold text-white text-lg">{currentUser.fullName}</h3>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-950/80 text-emerald-300 border border-emerald-800/80 uppercase">
                       {currentUser.role || "Admin"}
                     </span>
                   </div>
-                  <div className="text-xs text-gray-500 font-mono mt-0.5">{currentUser.email}</div>
-                  <div className="text-[11px] text-gray-400 mt-1">Authenticated via Supabase PostgreSQL Auth</div>
+                  <div className="text-xs text-slate-400 font-mono mt-0.5">{currentUser.email}</div>
+                  <div className="text-[11px] text-slate-500 mt-1">Authenticated via Supabase PostgreSQL Auth</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-2 shrink-0">
-                <span className="px-3 py-1.5 rounded-xl bg-gray-100 border border-gray-200 text-gray-600 text-xs font-mono">
+                <span className="px-3 py-1.5 rounded-xl bg-slate-950 border border-slate-800 text-slate-400 text-xs font-mono">
                   ID: {currentUser.id.slice(0, 12)}...
                 </span>
               </div>
@@ -1381,48 +1387,48 @@ export default function AdminPage() {
             {/* Forms Grid */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Form 1: Change Password */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-between space-y-6">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-between space-y-6 text-white">
                 <div>
-                  <div className="flex items-center gap-2 text-brand-navy mb-1">
-                    <KeyRound className="w-5 h-5 text-brand-navy" />
-                    <h3 className="text-lg font-bold text-gray-900">Change Admin Password</h3>
+                  <div className="flex items-center gap-2 text-brand-steel mb-1">
+                    <KeyRound className="w-5 h-5 text-brand-steel" />
+                    <h3 className="text-lg font-bold text-white">Change Admin Password</h3>
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-slate-400">
                     Set a new strong password for your administrator account.
                   </p>
 
                   <form onSubmit={handleChangePassword} className="mt-6 space-y-4">
                     {secError && (
-                      <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center gap-2">
+                      <div className="p-3 bg-rose-950/60 border border-rose-800/80 rounded-xl text-rose-300 text-xs flex items-center gap-2">
                         <AlertCircle className="w-4 h-4 shrink-0" />
                         <span>{secError}</span>
                       </div>
                     )}
 
                     {secSuccess && (
-                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <div className="p-3 bg-emerald-950/60 border border-emerald-800/80 rounded-xl text-emerald-300 text-xs flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                         <span>{secSuccess}</span>
                       </div>
                     )}
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                      <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                         Current Password (Optional Verification)
                       </label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                         <input
                           type={showCurrentPass ? "text" : "password"}
                           value={currentPassword}
                           onChange={(e) => setCurrentPassword(e.target.value)}
                           placeholder="Enter current password if known"
-                          className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                          className="w-full pl-10 pr-10 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                         />
                         <button
                           type="button"
                           onClick={() => setShowCurrentPass(!showCurrentPass)}
-                          className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-200"
                         >
                           {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -1430,11 +1436,11 @@ export default function AdminPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                      <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                         New Password *
                       </label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                         <input
                           type={showNewPass ? "text" : "password"}
                           required
@@ -1442,12 +1448,12 @@ export default function AdminPage() {
                           value={newPassword}
                           onChange={(e) => setNewPassword(e.target.value)}
                           placeholder="Minimum 6 characters"
-                          className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                          className="w-full pl-10 pr-10 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                         />
                         <button
                           type="button"
                           onClick={() => setShowNewPass(!showNewPass)}
-                          className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-200"
                         >
                           {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -1455,11 +1461,11 @@ export default function AdminPage() {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                      <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                         Confirm New Password *
                       </label>
                       <div className="relative">
-                        <Lock className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                         <input
                           type={showConfirmPass ? "text" : "password"}
                           required
@@ -1467,12 +1473,12 @@ export default function AdminPage() {
                           value={confirmPassword}
                           onChange={(e) => setConfirmPassword(e.target.value)}
                           placeholder="Re-type new password"
-                          className="w-full pl-10 pr-10 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                          className="w-full pl-10 pr-10 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                         />
                         <button
                           type="button"
                           onClick={() => setShowConfirmPass(!showConfirmPass)}
-                          className="absolute right-3.5 top-3 text-gray-400 hover:text-gray-600"
+                          className="absolute right-3.5 top-3 text-slate-400 hover:text-slate-200"
                         >
                           {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                         </button>
@@ -1482,7 +1488,7 @@ export default function AdminPage() {
                     <button
                       type="submit"
                       disabled={secLoading || !newPassword || !confirmPassword}
-                      className="w-full py-2.5 px-4 bg-brand-navy hover:bg-brand-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full py-2.5 px-4 bg-brand-navy hover:bg-brand-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed border border-brand-steel/30"
                     >
                       {secLoading ? (
                         <>
@@ -1499,67 +1505,67 @@ export default function AdminPage() {
                   </form>
                 </div>
 
-                <div className="pt-4 border-t border-gray-100 text-[11px] text-gray-500 leading-relaxed">
+                <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-400 leading-relaxed">
                   Tip: Passwords must be at least 6 characters. Make sure to remember your new password for your next login.
                 </div>
               </div>
 
               {/* Form 2: Update Profile Information */}
-              <div className="bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-between space-y-6">
+              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm flex flex-col justify-between space-y-6 text-white">
                 <div>
-                  <div className="flex items-center gap-2 text-brand-navy mb-1">
-                    <User className="w-5 h-5 text-brand-navy" />
-                    <h3 className="text-lg font-bold text-gray-900">Administrator Profile</h3>
+                  <div className="flex items-center gap-2 text-brand-steel mb-1">
+                    <User className="w-5 h-5 text-brand-steel" />
+                    <h3 className="text-lg font-bold text-white">Administrator Profile</h3>
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-slate-400">
                     Update your official contact name and login email address.
                   </p>
 
                   <form onSubmit={handleUpdateProfile} className="mt-6 space-y-4">
                     {profileError && (
-                      <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center gap-2">
+                      <div className="p-3 bg-rose-950/60 border border-rose-800/80 rounded-xl text-rose-300 text-xs flex items-center gap-2">
                         <AlertCircle className="w-4 h-4 shrink-0" />
                         <span>{profileError}</span>
                       </div>
                     )}
 
                     {profileSuccess && (
-                      <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <div className="p-3 bg-emerald-950/60 border border-emerald-800/80 rounded-xl text-emerald-300 text-xs flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                         <span>{profileSuccess}</span>
                       </div>
                     )}
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                      <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                         Admin Full Name
                       </label>
                       <div className="relative">
-                        <User className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <User className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                         <input
                           type="text"
                           required
                           value={profileName}
                           onChange={(e) => setProfileName(e.target.value)}
                           placeholder="e.g. Rajiv Kumar Sethi"
-                          className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
+                      <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
                         Login Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                        <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" />
                         <input
                           type="email"
                           required
                           value={profileEmail}
                           onChange={(e) => setProfileEmail(e.target.value)}
                           placeholder="e.g. tejaselevatorengineering@gmail.com"
-                          className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-300 rounded-xl text-xs sm:text-sm text-black focus:outline-none focus:ring-2 focus:ring-brand-navy font-mono"
+                          className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-700 rounded-xl text-xs sm:text-sm text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-brand-steel/50 focus:border-brand-steel font-mono"
                         />
                       </div>
                     </div>
@@ -1567,7 +1573,7 @@ export default function AdminPage() {
                     <button
                       type="submit"
                       disabled={profileLoading || (!profileName && !profileEmail)}
-                      className="w-full py-2.5 px-4 bg-brand-navy hover:bg-brand-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full py-2.5 px-4 bg-brand-navy hover:bg-brand-navy-dark text-white rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed border border-brand-steel/30"
                     >
                       {profileLoading ? (
                         <>
@@ -1584,7 +1590,7 @@ export default function AdminPage() {
                   </form>
                 </div>
 
-                <div className="pt-4 border-t border-gray-100 text-[11px] text-gray-500 leading-relaxed">
+                <div className="pt-4 border-t border-slate-800 text-[11px] text-slate-400 leading-relaxed">
                   Note: Changing your email will update the primary login credential for this administrator account in Supabase.
                 </div>
               </div>
