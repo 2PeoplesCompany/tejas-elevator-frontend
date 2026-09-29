@@ -902,8 +902,8 @@ export default function AdminPage() {
                 }`}
               >
                 <ImageIcon className="w-3.5 h-3.5 text-brand-steel shrink-0" />
-                <span className="sm:hidden">Photos</span>
-                <span className="hidden sm:inline">Website Photos</span>
+                <span className="sm:hidden">Media</span>
+                <span className="hidden sm:inline">Photos &amp; Showcase</span>
                 <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono ${
                   activeTab === "media" ? "bg-white/20 text-white" : "bg-slate-700 text-gray-300"
                 }`}>

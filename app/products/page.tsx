@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import { PRODUCTS_DATA } from "@/lib/products-data";
 import { getMediaUrl } from "@/lib/media";
+import ProductShowcaseCarousel from "@/components/products/ProductShowcaseCarousel";
 
 export const metadata = {
   title: "Elevator Products | Tejas Elevator Engineering",
@@ -135,6 +136,9 @@ export default function ProductsPage() {
           ))}
         </div>
       </section>
+
+      {/* NEW: Live Product Showcase & Installations Carousel (Photos & Videos) */}
+      <ProductShowcaseCarousel />
 
       {/* Landing Door Configurations */}
       <section className="py-20 bg-[#f8f9fa] border-t border-brand-border">
