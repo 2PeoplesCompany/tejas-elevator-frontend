@@ -234,7 +234,7 @@ export default function ProductShowcaseCarousel() {
                   {/* Content Overlay */}
                   <div className="relative z-10 space-y-1.5">
                     <h3 className="text-lg font-bold text-white tracking-tight leading-snug drop-shadow-md group-hover:text-brand-steel transition-colors line-clamp-2">
-                      {item.title}
+                      {item.title.replace(/^\d+[-_]/, "")}
                     </h3>
                     <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
                       {item.description}
@@ -280,7 +280,7 @@ export default function ProductShowcaseCarousel() {
                   {activeModalItem.mediaType}
                 </span>
                 <h3 className="font-bold text-white text-sm sm:text-base truncate max-w-md">
-                  {activeModalItem.title}
+                  {activeModalItem.title.replace(/^\d+[-_]/, "")}
                 </h3>
               </div>
               <button

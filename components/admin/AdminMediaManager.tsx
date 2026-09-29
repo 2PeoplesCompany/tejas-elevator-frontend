@@ -349,16 +349,13 @@ export default function AdminMediaManager() {
   };
 
   // --------------------------------------------------------------------------
-  // Showcase Delete Logic
+  // Showcase Delete & Restore Logic
   // --------------------------------------------------------------------------
   const handleDeleteShowcase = async (item: ShowcaseItem) => {
-    if (!item.isCustomUpload) {
-      alert("Built-in showcase items cannot be deleted directly.");
-      return;
-    }
-
+    const isDefault = !item.isCustomUpload;
+    const cleanTitle = item.title.replace(/^\d+[-_]/, "");
     const confirmed = window.confirm(
-      `Are you sure you want to delete "${item.title}" from the live Products page carousel?`
+      `Are you sure you want to remove "${cleanTitle}" from the live Products page carousel?`
     );
     if (!confirmed) return;
 
@@ -367,7 +364,12 @@ export default function AdminMediaManager() {
       const res = await fetch("/api/showcase", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ publicId: item.publicId, mediaType: item.mediaType }),
+        body: JSON.stringify({
+          id: item.id,
+          publicId: item.publicId,
+          mediaType: item.mediaType,
+          isDefault: isDefault,
+        }),
       });
 
       if (!res.ok) {
@@ -375,12 +377,31 @@ export default function AdminMediaManager() {
         throw new Error(data.error || "Failed to delete showcase item.");
       }
 
-      setShowcaseItems((prev) => prev.filter((i) => i.id !== item.id));
+      setShowcaseItems((prev) => prev.filter((i) => i.id !== item.id && i.publicId !== item.publicId));
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : "Failed to delete item.";
       alert(errorMsg);
     } finally {
       setDeletingShowcaseId(null);
+    }
+  };
+
+  const handleRestoreDefaults = async () => {
+    const confirmed = window.confirm("Restore all default sample elevator photos and video to the carousel?");
+    if (!confirmed) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("action", "restore_defaults");
+      const res = await fetch("/api/showcase", {
+        method: "POST",
+        body: formData,
+      });
+      if (res.ok) {
+        fetchShowcaseItems();
+      }
+    } catch (err) {
+      console.warn("Failed to restore defaults:", err);
     }
   };
 
@@ -459,19 +480,29 @@ export default function AdminMediaManager() {
 
         {/* Action Button for Showcase */}
         {mediaMode === "showcase" && (
-          <button
-            onClick={() => {
-              setIsUploadShowcaseOpen(true);
-              setShowcaseFile(null);
-              setShowcasePreviewUrl(null);
-              setShowcaseError(null);
-              setShowcaseSuccess(null);
-            }}
-            className="px-4 py-2.5 bg-gradient-to-r from-brand-navy to-blue-700 hover:from-brand-navy-dark hover:to-blue-800 text-white font-bold rounded-xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 border border-brand-steel/40 shrink-0"
-          >
-            <Plus className="w-4 h-4 text-brand-steel" />
-            <span>Upload New Photo / Video</span>
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleRestoreDefaults}
+              className="px-3.5 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium rounded-xl text-xs transition-all border border-slate-700 flex items-center gap-1.5 shadow-sm"
+              title="Restore built-in sample photos if any were deleted"
+            >
+              <RefreshCw className="w-3.5 h-3.5 text-slate-400" />
+              <span>Restore Samples</span>
+            </button>
+            <button
+              onClick={() => {
+                setIsUploadShowcaseOpen(true);
+                setShowcaseFile(null);
+                setShowcasePreviewUrl(null);
+                setShowcaseError(null);
+                setShowcaseSuccess(null);
+              }}
+              className="px-4 py-2.5 bg-gradient-to-r from-brand-navy to-blue-700 hover:from-brand-navy-dark hover:to-blue-800 text-white font-bold rounded-xl text-xs sm:text-sm transition-all shadow-md flex items-center justify-center gap-2 border border-brand-steel/40 shrink-0"
+            >
+              <Plus className="w-4 h-4 text-brand-steel" />
+              <span>Upload New Photo / Video</span>
+            </button>
+          </div>
         )}
       </div>
 
@@ -764,7 +795,7 @@ export default function AdminMediaManager() {
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <div className="space-y-1.5">
                     <h3 className="font-bold text-white text-sm leading-snug line-clamp-2">
-                      {item.title}
+                      {item.title.replace(/^\d+[-_]/, "")}
                     </h3>
                     <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">
                       {item.description}
@@ -786,30 +817,25 @@ export default function AdminMediaManager() {
                       </button>
                     </div>
 
-                    {/* Actions: Delete Button */}
-                    {item.isCustomUpload ? (
-                      <button
-                        onClick={() => handleDeleteShowcase(item)}
-                        disabled={deletingShowcaseId === item.id}
-                        className="w-full py-2 px-3 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 hover:text-white border border-rose-800/60 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm disabled:opacity-50"
-                      >
-                        {deletingShowcaseId === item.id ? (
-                          <>
-                            <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                            <span>Deleting...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Trash2 className="w-3.5 h-3.5 text-rose-400" />
-                            <span>Delete From Carousel</span>
-                          </>
-                        )}
-                      </button>
-                    ) : (
-                      <div className="py-2 text-center text-[10px] font-mono text-slate-500 bg-slate-950/40 rounded-lg border border-slate-800">
-                        Default Built-In Asset
-                      </div>
-                    )}
+                    {/* Actions: Delete Button for All Items */}
+                    <button
+                      onClick={() => handleDeleteShowcase(item)}
+                      disabled={deletingShowcaseId === item.id}
+                      className="w-full py-2 px-3 bg-rose-950/40 hover:bg-rose-900/60 text-rose-300 hover:text-white border border-rose-800/60 text-xs font-semibold rounded-lg flex items-center justify-center gap-2 transition-all shadow-sm disabled:opacity-50"
+                      title={item.isCustomUpload ? "Delete uploaded photo from Cloudinary & carousel" : "Remove sample photo from live carousel"}
+                    >
+                      {deletingShowcaseId === item.id ? (
+                        <>
+                          <RefreshCw className="w-3.5 h-3.5 animate-spin" />
+                          <span>Removing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Trash2 className="w-3.5 h-3.5 text-rose-400" />
+                          <span>Delete From Carousel</span>
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
               </div>
@@ -1143,7 +1169,7 @@ export default function AdminMediaManager() {
                   {previewModalItem.mediaType}
                 </span>
                 <h3 className="font-bold text-white text-sm sm:text-base truncate max-w-md">
-                  {previewModalItem.title}
+                  {previewModalItem.title.replace(/^\d+[-_]/, "")}
                 </h3>
               </div>
               <button
